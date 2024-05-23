@@ -25,7 +25,9 @@ create table addresses
     street      varchar(100) not null,
     number      varchar(100) null,
     reference   varchar(100) not null,
-    postal_code varchar(20)  null
+    postal_code varchar(20)  null,
+    latitude    varchar(50)  null,
+    longitude   varchar(50)  null,
 );
 
 create table customer
