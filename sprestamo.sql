@@ -25,12 +25,12 @@ create table addresses
     street      varchar(100) not null,
     number      varchar(100) null,
     reference   varchar(100) not null,
-    postal_code varchar(20)  null,
-    latitude    varchar(50)  null,
-    longitude   varchar(50)  null,
+    postal_code varchar(20) null,
+    latitude    varchar(50) null,
+    longitude   varchar(50) null
 );
 
-create table customer
+create table customers
 (
     id               serial primary key,
     document_type_id varchar(1)   not null,
@@ -39,7 +39,7 @@ create table customer
     last_name        varchar(100) not null,
     mother_last_name varchar(100) not null,
     email            varchar(100) not null,
-    phone            varchar(10) not null,
+    phone            varchar(10)  not null,
     date_birth       date         not null,
     address_id       integer      not null,
     constraint fk_customer_address
