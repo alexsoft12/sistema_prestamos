@@ -11,8 +11,14 @@
     <groupId>pe.a3ya</groupId>
     <artifactId>ms-customers</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ms-clientes</name>
-    <description>ms-clientes</description>
+    <packaging>pom</packaging>
+    <name>ms-customers</name>
+    <description>ms-customers</description>
+    <modules>
+        <module>application</module>
+        <module>domain</module>
+        <module>infraestructure</module>
+    </modules>
     <properties>
         <java.version>17</java.version>
     </properties>

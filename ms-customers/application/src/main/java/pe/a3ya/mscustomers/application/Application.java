@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers;
+package pe.a3ya.mscustomers.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
