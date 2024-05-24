@@ -6,7 +6,6 @@
         <artifactId>ms-customers</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>pe.a3ya</groupId>
     <artifactId>domain</artifactId>
     <name>Archetype - domain</name>
     <url>http://maven.apache.org</url>

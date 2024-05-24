@@ -1,3 +1,7 @@
+drop database if exists sprestamo;
+create database sprestamo;
+\c sprestamo;
+
 create table document_types
 (
     code        varchar(1)  not null primary key,
@@ -16,19 +20,6 @@ values ('0', 'DOC.TRIB.NO.DOM.SIN.RUC'),
        ('D', 'Identification Number - IN – Doc Trib PP. JJ'),
        ('E', 'TAM- Tarjeta Andina de Migración');
 
-create table addresses
-(
-    id          serial primary key,
-    department  varchar(100) not null,
-    province    varchar(100) not null,
-    district    varchar(100) not null,
-    street      varchar(100) not null,
-    number      varchar(100) null,
-    reference   varchar(100) not null,
-    postal_code varchar(20) null,
-    latitude    varchar(50) null,
-    longitude   varchar(50) null
-);
 
 create table customers
 (
@@ -41,9 +32,23 @@ create table customers
     email            varchar(100) not null,
     phone            varchar(10)  not null,
     date_birth       date         not null,
-    address_id       integer      not null,
-    constraint fk_customer_address
-        foreign key (address_id) references addresses (id),
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
+);
+
+create table addresses
+(
+    id          serial primary key,
+    department  varchar(100) not null,
+    province    varchar(100) not null,
+    district    varchar(100) not null,
+    street      varchar(100) not null,
+    number      varchar(100) null,
+    reference   varchar(100) not null,
+    postal_code varchar(20) null,
+    latitude    varchar(50) null,
+    longitude   varchar(50) null,
+    customer_id integer      not null,
+    constraint fk_address_customer
+        foreign key (customer_id) references customers (id)
 );
