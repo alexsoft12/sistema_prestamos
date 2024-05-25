@@ -5,10 +5,24 @@ POST http://localhost:8080/api/v1/customers
 Content-Type: application/json
 
 {
-    "documentNumber": "71991757",
-     "email": "yuleralex1@gmail.com",
-     "phone": "935426586",
-     "birthDate": "1990-01-01"
+  "documentNumber": "71991735",
+  "email": "yuleralex@gmail.com",
+  "phone": "935426586",
+  "birthDate": "1990-01-01",
+  "addresses": [
+    {
+      "department": "Lima",
+      "province": "Lima",
+      "district": "San Juan de Lurigancho",
+      "address": "Av. Los Ruiseñores 123",
+      "street": "Av. Los Ruiseñores",
+      "number": "123",
+      "reference": "Frente a la comisaria",
+      "postalCode": "15000",
+      "latitude": "12.000000",
+      "longitude": "-77.000000"
+    }
+  ]
 }
 
 ### Get By id
@@ -18,14 +32,29 @@ GET http://localhost:8080/api/v1/customers/1
 GET http://localhost:8080/api/v1/customers
 
 ### Update
-PUT http://localhost:8080/api/v1/customers/1
+PUT http://localhost:8080/api/v1/customers/4
 Content-Type: application/json
 
 {
   "documentNumber": "71991743",
   "email": "norka.camasita@gmail.com",
   "phone": "935426586",
-  "birthDate": "1992-03-02"
+  "birthDate": "1992-03-02",
+  "addresses": [
+    {
+      "id": "1",
+      "department": "Ancash",
+      "province": "Huari",
+      "district": "Huari",
+      "address": "Av. Los Ruiseñores 123",
+      "street": "Av. Los Ruiseñores",
+      "number": "128",
+      "reference": "Frente a la comisaria",
+      "postalCode": "15000",
+      "latitude": "12.000000",
+      "longitude": "-77.000000"
+    }
+  ]
 }
 
 ### Delete

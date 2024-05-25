@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -31,4 +31,6 @@ public class CustomerEntity extends Auditory {
     private String phone;
     @Column(name = "date_birth", nullable = false)
     private Date dateBirth;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<AddressEntity> addresses;
 }

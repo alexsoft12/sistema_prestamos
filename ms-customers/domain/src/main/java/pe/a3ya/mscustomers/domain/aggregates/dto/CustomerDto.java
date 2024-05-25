@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,5 +22,10 @@ public class CustomerDto {
     private String email;
     private String phone;
     private Date dateBirth;
+    private List<AddressDto> addresses;
+    private Long createdBy;
+    private Timestamp createdAt;
+    private Long updatedBy;
+    private Timestamp updatedAt;
 
 }

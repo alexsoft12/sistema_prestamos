@@ -32,6 +32,12 @@ create table customers
     email            varchar(100) not null,
     phone            varchar(10)  not null,
     date_birth       date         not null,
+    created_by       integer      not null,
+    created_at       timestamp    not null,
+    updated_by       integer      null,
+    updated_at       timestamp    null,
+    deleted_by       integer      null,
+    deleted_at       timestamp    null,
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
 );
@@ -42,13 +48,20 @@ create table addresses
     department  varchar(100) not null,
     province    varchar(100) not null,
     district    varchar(100) not null,
-    street      varchar(100) not null,
+    address     varchar(255) not null,
+    street      varchar(100) null,
     number      varchar(100) null,
     reference   varchar(100) not null,
-    postal_code varchar(20) null,
-    latitude    varchar(50) null,
-    longitude   varchar(50) null,
+    postal_code varchar(20)  null,
+    latitude    varchar(50)  null,
+    longitude   varchar(50)  null,
     customer_id integer      not null,
+    created_by  integer      not null,
+    created_at  timestamp    not null,
+    updated_by  integer      null,
+    updated_at  timestamp    null,
+    deleted_by  integer      null,
+    deleted_at  timestamp    null,
     constraint fk_address_customer
         foreign key (customer_id) references customers (id)
 );

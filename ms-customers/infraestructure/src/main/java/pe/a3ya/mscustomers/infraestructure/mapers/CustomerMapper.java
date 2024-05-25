@@ -18,6 +18,11 @@ public class CustomerMapper {
                 .email(customerEntity.getEmail())
                 .phone(customerEntity.getPhone())
                 .dateBirth(customerEntity.getDateBirth())
+                .addresses(AddressMapper.fromEntityToDtoList(customerEntity.getAddresses()))
+                .createdBy(customerEntity.getCreatedBy())
+                .createdAt(customerEntity.getCreatedAt())
+                .updatedBy(customerEntity.getUpdatedBy())
+                .updatedAt(customerEntity.getUpdatedAt())
                 .build();
     }
 
