@@ -14,7 +14,7 @@ public class Auditory {
     @Column(name = "updated_by")
     private Long updatedBy;
     @Column(name = "deleted_by")
-    private Long deleted_by;
+    private Long deletedBy;
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Column(name = "updated_at")

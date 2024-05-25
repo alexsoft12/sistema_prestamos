@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +19,6 @@ public class CustomerDto {
     private String motherLastName;
     private String email;
     private String phone;
-    private String dateBirth;
+    private Date dateBirth;
 
 }

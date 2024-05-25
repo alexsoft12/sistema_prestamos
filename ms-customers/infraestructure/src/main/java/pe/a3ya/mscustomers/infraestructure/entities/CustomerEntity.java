@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "customers")
 @Getter
@@ -27,5 +30,5 @@ public class CustomerEntity extends Auditory {
     @Column(name = "phone", nullable = false, length = 10)
     private String phone;
     @Column(name = "date_birth", nullable = false)
-    private String dateBirth;
+    private Date dateBirth;
 }
