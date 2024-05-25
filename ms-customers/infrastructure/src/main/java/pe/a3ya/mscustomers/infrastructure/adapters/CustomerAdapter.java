@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers.infraestructure.adapters;
+package pe.a3ya.mscustomers.infrastructure.adapters;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -8,16 +8,15 @@ import pe.a3ya.mscustomers.domain.aggregates.dto.ReniecDto;
 import pe.a3ya.mscustomers.domain.aggregates.request.AddressRequest;
 import pe.a3ya.mscustomers.domain.aggregates.request.CustomerRequest;
 import pe.a3ya.mscustomers.domain.ports.out.CustomerServiceOut;
-import pe.a3ya.mscustomers.infraestructure.clients.ApisNetReniecClient;
-import pe.a3ya.mscustomers.infraestructure.dao.AddressRepository;
-import pe.a3ya.mscustomers.infraestructure.dao.CustomerRepository;
-import pe.a3ya.mscustomers.infraestructure.entities.AddressEntity;
-import pe.a3ya.mscustomers.infraestructure.entities.CustomerEntity;
-import pe.a3ya.mscustomers.infraestructure.mapers.CustomerMapper;
+import pe.a3ya.mscustomers.infrastructure.clients.ApisNetReniecClient;
+import pe.a3ya.mscustomers.infrastructure.dao.AddressRepository;
+import pe.a3ya.mscustomers.infrastructure.dao.CustomerRepository;
+import pe.a3ya.mscustomers.infrastructure.entities.AddressEntity;
+import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
+import pe.a3ya.mscustomers.infrastructure.mapers.CustomerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -6,7 +6,7 @@
         <artifactId>ms-customers</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>infraestructure</artifactId>
+    <artifactId>infrastructure</artifactId>
     <name>Archetype - infraestructure</name>
     <url>http://maven.apache.org</url>
     <dependencies>

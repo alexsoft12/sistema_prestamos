@@ -1,7 +1,7 @@
-package pe.a3ya.mscustomers.infraestructure.mapers;
+package pe.a3ya.mscustomers.infrastructure.mapers;
 
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
-import pe.a3ya.mscustomers.infraestructure.entities.CustomerEntity;
+import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers.infraestructure.clients;
+package pe.a3ya.mscustomers.infrastructure.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

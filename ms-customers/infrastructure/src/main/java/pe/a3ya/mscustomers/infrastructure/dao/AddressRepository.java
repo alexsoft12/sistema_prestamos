@@ -1,9 +1,9 @@
-package pe.a3ya.mscustomers.infraestructure.dao;
+package pe.a3ya.mscustomers.infrastructure.dao;
 
 import io.micrometer.common.lang.NonNullApi;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import pe.a3ya.mscustomers.infraestructure.entities.AddressEntity;
+import pe.a3ya.mscustomers.infrastructure.entities.AddressEntity;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers.infraestructure.utils;
+package pe.a3ya.mscustomers.infrastructure.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

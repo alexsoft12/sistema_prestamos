@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>pe.a3ya</groupId>
-            <artifactId>infraestructure</artifactId>
+            <artifactId>infrastructure</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

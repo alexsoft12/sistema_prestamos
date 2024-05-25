@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers.infraestructure.entities;
+package pe.a3ya.mscustomers.infrastructure.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
