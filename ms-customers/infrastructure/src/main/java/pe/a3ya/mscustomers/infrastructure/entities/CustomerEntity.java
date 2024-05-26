@@ -3,8 +3,10 @@ package pe.a3ya.mscustomers.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -30,7 +32,8 @@ public class CustomerEntity extends Auditory {
     @Column(name = "phone", nullable = false, length = 10)
     private String phone;
     @Column(name = "date_birth", nullable = false)
-    private Date dateBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateBirth;
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<AddressEntity> addresses;
 }
