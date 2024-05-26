@@ -68,27 +68,14 @@ create table addresses
 );
 
 -- MS loans
-create table guaranties
-(
-    id              serial primary key,
-    name            varchar(100)   not null,
-    description     text           not null,
-    estimated_value numeric(24, 6) not null,
-    status          varchar(1)     not null,
-    image_url       varchar(255)   not null,
-    created_by      integer        not null,
-    created_at      timestamp      not null,
-    updated_by      integer        null,
-    updated_at      timestamp      null,
-    deleted_by      integer        null,
-    deleted_at      timestamp      null
-);
+drop table if exists payment_installments;
+drop table if exists guaranties;
+drop table if exists loans;
 
 create table loans
 (
     id             serial primary key,
     customer_id    integer        not null,
-    guaranty_id    integer        null default null,
     amount         numeric(24, 6) not null,
     payment_method varchar(50)    not null,
     payment_type   varchar(50)    not null,
@@ -106,9 +93,26 @@ create table loans
     deleted_by     integer        null,
     deleted_at     timestamp      null,
     constraint fk_loan_customer
-        foreign key (customer_id) references customers (id),
-    constraint fk_loan_guaranty
-        foreign key (guaranty_id) references guaranties (id)
+        foreign key (customer_id) references customers (id)
+);
+
+create table guaranties
+(
+    id              serial primary key,
+    loan_id         integer        not null,
+    name            varchar(100)   not null,
+    description     text           not null,
+    estimated_value numeric(24, 6) not null,
+    status          varchar(1)     not null,
+    image_url       varchar(255)   not null,
+    created_by      integer        not null,
+    created_at      timestamp      not null,
+    updated_by      integer        null,
+    updated_at      timestamp      null,
+    deleted_by      integer        null,
+    deleted_at      timestamp      null,
+    constraint fk_guaranty_loan
+        foreign key (loan_id) references loans (id)
 );
 
 create table payment_installments(
