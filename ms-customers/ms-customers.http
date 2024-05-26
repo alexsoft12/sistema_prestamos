@@ -5,8 +5,8 @@ POST http://localhost:8080/api/v1/customers
 Content-Type: application/json
 
 {
-  "documentNumber": "71991735",
-  "email": "yuleralex@gmail.com",
+  "documentNumber": "75583362",
+  "email": "frank@gmail.com",
   "phone": "935426586",
   "birthDate": "1990-01-01",
   "addresses": [
@@ -32,14 +32,15 @@ GET http://localhost:8080/api/v1/customers/1
 GET http://localhost:8080/api/v1/customers
 
 ### Update
-PUT http://localhost:8080/api/v1/customers/4
+PUT http://localhost:8080/api/v1/customers/1
 Content-Type: application/json
 
 {
-  "documentNumber": "71991743",
+  "id": 1,
+  "documentNumber": "75583362",
   "email": "norka.camasita@gmail.com",
   "phone": "935426586",
-  "birthDate": "1992-03-02",
+  "birthDate": "1992-04-20",
   "addresses": [
     {
       "id": "1",
