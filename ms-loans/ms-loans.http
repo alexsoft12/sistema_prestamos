@@ -1,0 +1,45 @@
+### API loans
+
+###
+POST http://localhost:8080/api/v1/loans
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "amount": 1000,
+  "paymentMethod": "Semanales",
+  "paymentType": "Efectivo",
+  "contractDate": "2021-06-01",
+  "startDate": "2021-06-08",
+  "endDate": "2021-06-12",
+  "interestRate": 0.1,
+  "status": "Prestado",
+  "term": 4,
+  "fee": 250
+}
+
+###
+GET http://localhost:8080/api/v1/loans/1
+
+###
+GET http://localhost:8080/api/v1/loans
+
+###
+PUT http://localhost:8080/api/v1/loans/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "customerId": 1,
+  "amount": 1000,
+  "paymentMethod": "Mensuales",
+  "paymentType": "Yape",
+  "contractDate": "2021-06-01",
+  "startDate": "2021-06-08",
+  "endDate": "2021-06-12",
+  "interestRate": 0.1,
+  "status": "Prestado",
+  "term": 4,
+  "fee": 250
+}
+

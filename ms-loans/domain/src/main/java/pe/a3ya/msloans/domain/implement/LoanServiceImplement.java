@@ -7,6 +7,8 @@ import pe.a3ya.msloans.domain.aggregates.requests.LoanRequest;
 import pe.a3ya.msloans.domain.ports.in.LoanServiceIn;
 import pe.a3ya.msloans.domain.ports.out.LoanServiceOut;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class LoanServiceImplement implements LoanServiceIn {
@@ -21,6 +23,11 @@ public class LoanServiceImplement implements LoanServiceIn {
     @Override
     public LoanDto getById(Long id) {
         return loanServiceOut.getById(id);
+    }
+
+    @Override
+    public List<LoanDto> getAll() {
+        return loanServiceOut.getAll();
     }
 
     @Override
