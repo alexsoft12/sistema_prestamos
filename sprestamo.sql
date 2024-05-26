@@ -131,3 +131,26 @@ create table payment_installments(
     constraint fk_payment_installment_loan
         foreign key (loan_id) references loans (id)
 );
+
+-- MS loans
+drop table if exists users;
+
+create table users(
+    id               serial primary key,
+    document_type_id varchar(1)   not null,
+    document_number  varchar(20)  not null,
+    name             varchar(100) not null,
+    last_name        varchar(100) not null,
+    mother_last_name varchar(100) not null,
+    email            varchar(100) not null,
+    phone            varchar(10)  not null,
+    date_birth       date         not null,
+    created_by       integer      not null,
+    created_at       timestamp    not null,
+    updated_by       integer null,
+    updated_at       timestamp null,
+    deleted_by       integer null,
+    deleted_at       timestamp null,
+    constraint fk_customer_document_type
+        foreign key (document_type_id) references document_types (code)
+);
