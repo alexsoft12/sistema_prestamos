@@ -9,4 +9,12 @@
     <artifactId>infrastructure</artifactId>
     <name>Archetype - infrastructure</name>
     <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>pe.a3ya</groupId>
+            <artifactId>domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,0 +1,33 @@
+### API USERS
+
+### USER REGISTER
+POST localhost:8082/api/v1/users
+Content-Type: application/json
+
+{
+  "documentNumber": "75583362",
+  "email": "frank@gmail.com",
+  "phone": "935426586",
+  "birthDate": "2000-02-02"
+}
+
+### USER GET BY ID
+GET localhost:8082/api/v1/users/1
+
+### USERS Get All
+GET http://localhost:8082/api/v1/users
+
+### USER Update
+PUT http://localhost:8082/api/v1/users/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "documentNumber": "46226086",
+  "email": "norka.camasita@gmail.com",
+  "phone": "999999999",
+  "birthDate": "1992-04-20"
+}
+
+### USER Delete
+DELETE http://localhost:8082/api/v1/users/1
