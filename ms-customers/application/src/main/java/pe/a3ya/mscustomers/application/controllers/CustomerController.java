@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+import pe.a3ya.mscustomers.domain.aggregates.dto.AddressDto;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.domain.aggregates.request.CustomerRequest;
 import pe.a3ya.mscustomers.domain.ports.in.CustomerServiceIn;
@@ -37,7 +38,14 @@ public class CustomerController {
                         @Parameter(name="email",description = "The client's email address used for communication and notifications"),
                         @Parameter(name="phone",description = "The client's phone number, for contact purposes."),
                         @Parameter(name="birthDate",description = "The customer's date of birth."),
-                        @Parameter(name = "addresses",description = "A list of the customer's addresses, each containing id, department, province, district, address, street, number, reference, postalCode, latitude, and longitude")
+                        @Parameter(
+                                name = "addresses",
+                                description = "List of customer's addresses",
+                                schema = @Schema(
+                                        type= "array",
+                                        implementation = AddressDto.class
+                                )
+                        )
                 })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "customer created successfully",
@@ -95,7 +103,14 @@ public class CustomerController {
                         @Parameter(name="email",description = "The client's email address used for communication and notifications"),
                         @Parameter(name="phone",description = "The client's phone number, for contact purposes."),
                         @Parameter(name="birthDate",description = "The customer's date of birth."),
-                        @Parameter(name = "addresses",description = "A list of the customer's addresses, each containing id, department, province, district, address, street, number, reference, postalCode, latitude, and longitude")
+                        @Parameter(
+                                name = "addresses",
+                                description = "List of customer's addresses",
+                                schema = @Schema(
+                                        type= "array",
+                                        implementation = AddressDto.class
+                                )
+                            )
                 })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer updated successfully",
