@@ -5,19 +5,25 @@ import org.springframework.stereotype.Service;
 import pe.a3ya.msloans.domain.aggregates.dto.LoanDto;
 import pe.a3ya.msloans.domain.aggregates.requests.LoanRequest;
 import pe.a3ya.msloans.domain.ports.out.LoanServiceOut;
+import pe.a3ya.msloans.infrastructure.dao.GuarantiesRepository;
 import pe.a3ya.msloans.infrastructure.dao.LoanRepository;
+import pe.a3ya.msloans.infrastructure.entities.GuarantiesEntity;
 import pe.a3ya.msloans.infrastructure.entities.LoanEntity;
 import pe.a3ya.msloans.infrastructure.mappers.LoanMapper;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LoanAdapter implements LoanServiceOut {
 
     final LoanRepository loanRepository;
+    final GuarantiesRepository guarantiesRepository;
 
     @Override
+
     public LoanDto save(LoanRequest loanRequest) {
         LoanEntity loanEntity = new LoanEntity();
         return updateLoan(loanRequest, loanEntity);
@@ -60,7 +66,32 @@ public class LoanAdapter implements LoanServiceOut {
         loanEntity.setStatus(loanRequest.getStatus());
         loanEntity.setTerm(loanRequest.getTerm());
         loanEntity.setFee(loanRequest.getFee());
-        return LoanMapper.fromEntityToDto(loanRepository.save(loanEntity));
+        //aqui iria el if
+        //if, si puede o no traer garantias
+        LoanEntity savedLoan = loanRepository.save(loanEntity);
+        if(loanRequest.getGuaranties() != null && !loanRequest.getGuaranties().isEmpty()) {
+            List<GuarantiesEntity> guarantiesEntities = loanRequest.getGuaranties().stream().map(guarantiesRequest -> {
+                GuarantiesEntity guarantiesEntity = new GuarantiesEntity();
+                //guarantiesEntity.setId(guarantiesRequest.getId());
+                guarantiesEntity.setName(guarantiesRequest.getName());
+                guarantiesEntity.setDescription(guarantiesRequest.getDescription());
+                guarantiesEntity.setEstimated_value(guarantiesRequest.getEstimated_value());
+                guarantiesEntity.setStatus(guarantiesRequest.getStatus());
+                guarantiesEntity.setImage_url(guarantiesRequest.getImage_url());
+                guarantiesEntity.setLoan(savedLoan);
+                return guarantiesEntity;
+
+            }).collect(Collectors.toList());
+
+            guarantiesRepository.saveAll(guarantiesEntities);
+            savedLoan.setGuaranties(guarantiesEntities);
+            loanRepository.save(savedLoan);
+        }else{
+            //manejo de guarantis con lista vacia
+            savedLoan.setGuaranties(new ArrayList<>());
+        }
+
+        return LoanMapper.fromEntityToDto(savedLoan);
     }
 
     @Override

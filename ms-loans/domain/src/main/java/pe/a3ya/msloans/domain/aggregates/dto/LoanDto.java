@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Builder
@@ -23,6 +24,7 @@ public class LoanDto {
     private String status;
     private Integer term;
     private Double fee;
+    private List<GuarantiesDto> guaranties;
     private Long createdBy;
     private Timestamp createdAt;
     private Long updatedBy;

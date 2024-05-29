@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter
@@ -21,4 +22,5 @@ public class LoanRequest {
     private String status;
     private Integer term;
     private Double fee;
+    private List<GuarantiesRequest> guaranties;
 }
