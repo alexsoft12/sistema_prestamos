@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -41,4 +41,6 @@ public class LoanEntity extends Auditory {
     private Integer term; // plazo
     @Column(name = "fee")
     private Double fee; // cuota
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<GuarantiesEntity> guaranties;
 }

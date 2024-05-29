@@ -15,8 +15,19 @@ Content-Type: application/json
   "interestRate": 0.1,
   "status": "Prestado",
   "term": 4,
-  "fee": 250
+  "fee": 250,
+  "guaranties":[
+    {
+      "name": "cosa 1",
+      "description": "cosa 1",
+      "estimated_value": 34.56 ,
+      "status": "1",
+      "image_url":"imagen1"
+    }
+  ]
 }
+
+
 
 ###
 GET http://localhost:8081/api/v1/loans/1
@@ -28,18 +39,30 @@ GET http://localhost:8081/api/v1/loans
 PUT http://localhost:8081/api/v1/loans/1
 Content-Type: application/json
 
-{
-  "id": 1,
-  "customerId": 1,
-  "amount": 1000,
-  "paymentMethod": "Mensuales",
-  "paymentType": "Yape",
-  "contractDate": "2021-06-10",
-  "startDate": "2021-06-08",
-  "endDate": "2021-06-12",
-  "interestRate": 0.1,
-  "status": "Prestado",
-  "term": 4,
-  "fee": 250
-}
+
+  {
+    "id": 1,
+    "customerId": 1,
+    "amount": 1000.0,
+    "paymentMethod": "Mensuales",
+    "paymentType": "yape",
+    "contractDate": "2021-06-01",
+    "startDate": "2021-06-08",
+    "endDate": "2021-06-12",
+    "interestRate": 0.15,
+    "status": "Prestado",
+    "term": 4,
+    "fee": 280.0,
+    "guaranties": [
+      {
+        "id": 1,
+        "name": "cosa 1",
+        "description": "cosa 1",
+        "estimated_value": 34.560000,
+        "status": "1",
+        "image_url": "imagen1"
+      }
+    ]
+  }
+
 

@@ -8,24 +8,25 @@ import java.util.stream.Collectors;
 
 public class LoanMapper {
 
-    public static LoanDto fromEntityToDto(LoanEntity loan) {
+    public static LoanDto fromEntityToDto(LoanEntity loanEntity) {
         return LoanDto.builder()
-                .id(loan.getId())
-                .customerId(loan.getCustomerId())
-                .amount(loan.getAmount())
-                .paymentMethod(loan.getPaymentMethod())
-                .paymentType(loan.getPaymentType())
-                .contractDate(loan.getContractDate())
-                .startDate(loan.getStartDate())
-                .endDate(loan.getEndDate())
-                .interestRate(loan.getInterestRate())
-                .status(loan.getStatus())
-                .term(loan.getTerm())
-                .fee(loan.getFee())
-                .createdBy(loan.getCreatedBy())
-                .createdAt(loan.getCreatedAt())
-                .updatedBy(loan.getUpdatedBy())
-                .updatedAt(loan.getUpdatedAt())
+                .id(loanEntity.getId())
+                .customerId(loanEntity.getCustomerId())
+                .amount(loanEntity.getAmount())
+                .paymentMethod(loanEntity.getPaymentMethod())
+                .paymentType(loanEntity.getPaymentType())
+                .contractDate(loanEntity.getContractDate())
+                .startDate(loanEntity.getStartDate())
+                .endDate(loanEntity.getEndDate())
+                .interestRate(loanEntity.getInterestRate())
+                .status(loanEntity.getStatus())
+                .term(loanEntity.getTerm())
+                .fee(loanEntity.getFee())
+                .guaranties(GuarantiesMapper.fromEntityToDtoList(loanEntity.getGuaranties()))
+                .createdBy(loanEntity.getCreatedBy())
+                .createdAt(loanEntity.getCreatedAt())
+                .updatedBy(loanEntity.getUpdatedBy())
+                .updatedAt(loanEntity.getUpdatedAt())
                 .build();
     }
 
