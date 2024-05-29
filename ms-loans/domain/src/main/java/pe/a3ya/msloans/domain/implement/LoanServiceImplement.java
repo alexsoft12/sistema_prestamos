@@ -17,6 +17,7 @@ public class LoanServiceImplement implements LoanServiceIn {
 
     @Override
     public LoanDto save(LoanRequest loanRequest) {
+        calculateLoan(loanRequest);
         return loanServiceOut.save(loanRequest);
     }
 
@@ -32,11 +33,39 @@ public class LoanServiceImplement implements LoanServiceIn {
 
     @Override
     public LoanDto update(Long id, LoanRequest loanRequest) {
+        calculateLoan(loanRequest);
         return loanServiceOut.update(id, loanRequest);
     }
 
     @Override
     public void delete(Long id) {
         loanServiceOut.delete(id);
+    }
+
+    private static void calculateLoan(LoanRequest loanRequest) {
+        int term = loanRequest.getTerm();
+        double amount = loanRequest.getAmount();
+        double interestRate = loanRequest.getInterestRate();
+        double fee = (amount * interestRate) / (1 - Math.pow(1 + interestRate, -term));
+        loanRequest.setFee(fee);
+
+        switch (loanRequest.getPaymentMethod()) {
+            case "monthly":
+                loanRequest.setStartDate(loanRequest.getContractDate().plusMonths(1));
+                loanRequest.setEndDate(loanRequest.getContractDate().plusMonths(term));
+                break;
+            case "weekly":
+                loanRequest.setStartDate(loanRequest.getContractDate().plusWeeks(1));
+                loanRequest.setEndDate(loanRequest.getContractDate().plusWeeks(term));
+                break;
+            case "biweekly":
+                loanRequest.setStartDate(loanRequest.getContractDate().plusWeeks(2));
+                loanRequest.setEndDate(loanRequest.getContractDate().plusWeeks(term * 2L));
+                break;
+            case "daily":
+                loanRequest.setStartDate(loanRequest.getContractDate().plusDays(1));
+                loanRequest.setEndDate(loanRequest.getContractDate().plusDays(term));
+                break;
+        }
     }
 }
