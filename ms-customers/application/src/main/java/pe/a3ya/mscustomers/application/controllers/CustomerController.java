@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import pe.a3ya.mscustomers.domain.aggregates.dto.AddressDto;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
@@ -17,7 +20,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -52,7 +57,7 @@ public class CustomerController {
                 content = {@Content(mediaType = "appication/json",
                         schema = @Schema(implementation = CustomerRequest.class))})
     })
-    public ResponseEntity<CustomerDto> register(@RequestBody CustomerRequest customerRequest) {
+    public ResponseEntity<CustomerDto> register(@Valid @RequestBody CustomerRequest customerRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(customerServiceIn.save(customerRequest));
@@ -146,5 +151,18 @@ public class CustomerController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body(null);
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError)error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }
