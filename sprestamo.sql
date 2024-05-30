@@ -160,6 +160,26 @@ create table users
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
 );
+<<<<<<< HEAD
+
+-- MS payment
+create table pay(
+    id              serial primary key,
+    installments_id integer not null,
+    day             timestamp not null,
+    modality        varchar(20)  not null,
+    method          varchar(20)  not null,
+    amount          numeric(24, 6) not null,
+    created_by       integer      not null,
+    created_at       timestamp    not null,
+    updated_by       integer null,
+    updated_at       timestamp null,
+    deleted_by       integer null,
+    deleted_at       timestamp null,
+    constraint fk_pay_payment_installment
+        foreign key (installments_id) references payment_installments (id)
+)
+=======
 create table rol
 (
     id        serial primary key,
@@ -176,3 +196,4 @@ create table user_role
         foreign key (id_rol) references rol (id)
 
 );
+>>>>>>> 5804d99b74f3d2b15cc4411f495d203e7417fa9f
