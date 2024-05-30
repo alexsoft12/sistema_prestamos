@@ -16,6 +16,7 @@ public class UserMapper {
                 .lastName(userEntity.getLastName())
                 .motherLastName(userEntity.getMotherLastName())
                 .email(userEntity.getEmail())
+                .password(userEntity.getPassword())
                 .phone(userEntity.getPhone())
                 .dateBirth(userEntity.getDateBirth())
                 .createdBy(userEntity.getCreatedBy())

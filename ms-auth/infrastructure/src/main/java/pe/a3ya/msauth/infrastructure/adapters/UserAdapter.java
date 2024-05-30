@@ -3,19 +3,24 @@ package pe.a3ya.msauth.infrastructure.adapters;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pe.a3ya.msauth.domain.aggregates.dto.ReniecDto;
 import pe.a3ya.msauth.domain.aggregates.dto.UserDto;
 import pe.a3ya.msauth.domain.aggregates.requests.UserRequest;
 import pe.a3ya.msauth.domain.ports.out.UserServiceOut;
 import pe.a3ya.msauth.infrastructure.clients.ApisNetReniecClient;
+import pe.a3ya.msauth.infrastructure.dao.RolRepository;
 import pe.a3ya.msauth.infrastructure.dao.UserRepository;
+import pe.a3ya.msauth.infrastructure.entities.Rol;
+import pe.a3ya.msauth.infrastructure.entities.Role;
 import pe.a3ya.msauth.infrastructure.entities.UserEntity;
 import pe.a3ya.msauth.infrastructure.mappers.UserMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class UserAdapter implements UserServiceOut {
 
     private final UserRepository userRepository;
     private final ApisNetReniecClient reniecClient;
+    private final RolRepository rolRepository;
 
     @Value("${token.apis_net}")
     private String token;
@@ -41,8 +47,18 @@ public class UserAdapter implements UserServiceOut {
         userEntity.setLastName(reniecDto.getApellidoPaterno());
         userEntity.setMotherLastName(reniecDto.getApellidoMaterno());
         userEntity.setEmail(userRequest.getEmail());
+        userEntity.setPassword(new BCryptPasswordEncoder().encode(userRequest.getPassword()));
         userEntity.setPhone(userRequest.getPhone());
         userEntity.setDateBirth(userRequest.getBirthDate());
+
+        Set<Rol> assignedRoles = new HashSet<>();
+
+        Rol userRole = rolRepository.findByNameRole(Role.ADMIN.name()).orElseThrow(() -> new RuntimeException("Error: Role not found."));
+
+        assignedRoles.add(userRole);
+
+        userEntity.setRoles(assignedRoles);
+
         return userEntity;
     }
 
@@ -95,6 +111,22 @@ public class UserAdapter implements UserServiceOut {
             userEntity.onDeleted();
             userRepository.delete(userEntity);
         }
+    }
+
+    @Override
+    public UserDetailsService userDetailService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                return userRepository.findByEmail(username).orElseThrow(()->
+                        new UsernameNotFoundException("User not found"));
+            }
+        };
+    }
+
+    @Override
+    public List<UserDto> getUsers() {
+        return UserMapper.fromEntityToDtoList(userRepository.findAll());
     }
 
 
