@@ -34,7 +34,7 @@ public class UserEntity extends Auditory implements UserDetails{
     private String lastName;
     @Column(name = "mother_last_name", nullable = false, length = 100)
     private String motherLastName;
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
     @Column(name = "password", nullable = false, length = 100)
     private String password;

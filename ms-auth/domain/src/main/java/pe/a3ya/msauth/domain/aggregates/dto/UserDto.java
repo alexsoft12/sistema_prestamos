@@ -1,5 +1,6 @@
 package pe.a3ya.msauth.domain.aggregates.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     private Long id;
     private char documentType;
@@ -28,5 +30,7 @@ public class UserDto {
     private Long updatedBy;
     private Timestamp updatedAt;
     private List<RolDto> roles;
+
+    private String message;
 
 }

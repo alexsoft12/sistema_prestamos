@@ -7,27 +7,44 @@ Content-Type: application/json
 {
   "documentNumber": "75583362",
   "email": "frank@gmail.com",
+  "password": "root",
   "phone": "935426586",
   "birthDate": "2000-02-02"
 }
 
+### USER LOGIN
+POST localhost:8082/api/v1/authentication/signin
+Content-Type: application/json
+
+{
+  "email": "frank@gmail.com",
+  "password": "root"
+}
+
 ### USER GET BY ID
 GET localhost:8082/api/v1/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmcmFua0BnbWFpbC5jb20iLCJpYXQiOjE3MTcxMDE2NTUsImV4cCI6MTcxNzEwMTk1NX0.jWwF_s48jbMzDKoiFmPYNglv4kEQ5bM8ABxGz3KjI_A
+
 
 ### USERS Get All
 GET http://localhost:8082/api/v1/users/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmcmFua0BnbWFpbC5jb20iLCJpYXQiOjE3MTcxMDE2NTUsImV4cCI6MTcxNzEwMTk1NX0.jWwF_s48jbMzDKoiFmPYNglv4kEQ5bM8ABxGz3KjI_A
 
 ### USER Update
 PUT http://localhost:8082/api/v1/users/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmcmFua0BnbWFpbC5jb20iLCJpYXQiOjE3MTcxMDE2NTUsImV4cCI6MTcxNzEwMTk1NX0.jWwF_s48jbMzDKoiFmPYNglv4kEQ5bM8ABxGz3KjI_A
+
 
 {
   "id": 1,
   "documentNumber": "46226086",
   "email": "norka.camasita@gmail.com",
+  "password": "123",
   "phone": "999999999",
   "birthDate": "1992-04-20"
 }
 
 ### USER Delete
 DELETE http://localhost:8082/api/v1/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmcmFua0BnbWFpbC5jb20iLCJpYXQiOjE3MTcxMDE2NTUsImV4cCI6MTcxNzEwMTk1NX0.jWwF_s48jbMzDKoiFmPYNglv4kEQ5bM8ABxGz3KjI_A

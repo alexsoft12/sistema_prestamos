@@ -18,6 +18,7 @@ import pe.a3ya.msauth.infrastructure.dao.UserRepository;
 import pe.a3ya.msauth.infrastructure.entities.Rol;
 import pe.a3ya.msauth.infrastructure.entities.Role;
 import pe.a3ya.msauth.infrastructure.entities.UserEntity;
+import pe.a3ya.msauth.infrastructure.exceptions.EmailAlreadyExistsException;
 import pe.a3ya.msauth.infrastructure.mappers.UserMapper;
 
 import java.util.*;
@@ -65,6 +66,9 @@ public class UserAdapter implements UserServiceOut {
     @Override
     public UserDto save(UserRequest userRequest) {
         UserEntity userEntity = getUserEntity(userRequest);
+        if (userRepository.existsByEmail(userEntity.getEmail())) {
+            throw new EmailAlreadyExistsException("Email is already in use. Please choose another");
+        }
         return UserMapper.fromEntityToDto(userRepository.save(userEntity));
     }
 
@@ -100,6 +104,7 @@ public class UserAdapter implements UserServiceOut {
         userEntity.setLastName(reniecDto.getApellidoPaterno());
         userEntity.setMotherLastName(reniecDto.getApellidoMaterno());
         userEntity.setEmail(userRequest.getEmail());
+        userEntity.setPassword(new BCryptPasswordEncoder().encode(userRequest.getPassword()));
         userEntity.setPhone(userRequest.getPhone());
         userEntity.setDateBirth(userRequest.getBirthDate());
     }
