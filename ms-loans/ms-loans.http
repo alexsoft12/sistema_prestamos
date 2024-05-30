@@ -7,15 +7,12 @@ Content-Type: application/json
 {
   "customerId": 1,
   "amount": 1000,
-  "paymentMethod": "Semanales",
+  "paymentMethod": "monthly",
   "paymentType": "Efectivo",
   "contractDate": "2021-06-01",
-  "startDate": "2021-06-08",
-  "endDate": "2021-06-12",
   "interestRate": 0.1,
   "status": "Prestado",
-  "term": 4,
-  "fee": 250,
+  "term": 5,
   "guaranties":[
     {
       "name": "cosa 1",
@@ -39,20 +36,16 @@ GET http://localhost:8081/api/v1/loans
 PUT http://localhost:8081/api/v1/loans/1
 Content-Type: application/json
 
-
   {
     "id": 1,
     "customerId": 1,
     "amount": 1000.0,
-    "paymentMethod": "Mensuales",
+    "paymentMethod": "monthly",
     "paymentType": "yape",
     "contractDate": "2021-06-01",
-    "startDate": "2021-06-08",
-    "endDate": "2021-06-12",
     "interestRate": 0.15,
     "status": "Prestado",
-    "term": 4,
-    "fee": 280.0,
+    "term": 3,
     "guaranties": [
       {
         "id": 1,
@@ -65,4 +58,6 @@ Content-Type: application/json
     ]
   }
 
+###
+DELETE http://localhost:8081/api/v1/loans/1
 

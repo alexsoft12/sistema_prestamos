@@ -24,9 +24,10 @@ public class LoanDto {
     private String status;
     private Integer term;
     private Double fee;
-    private List<GuarantiesDto> guaranties;
     private Long createdBy;
     private Timestamp createdAt;
     private Long updatedBy;
     private Timestamp updatedAt;
+    private List<GuarantiesDto> guaranties;
+    private List<PaymentInstallmentDto> paymentInstallments;
 }

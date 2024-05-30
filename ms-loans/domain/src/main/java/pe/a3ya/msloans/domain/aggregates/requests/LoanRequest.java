@@ -23,4 +23,6 @@ public class LoanRequest {
     private Integer term;
     private Double fee;
     private List<GuarantiesRequest> guaranties;
+    private List<PaymentInstallmentRequest> paymentInstallments;
+
 }

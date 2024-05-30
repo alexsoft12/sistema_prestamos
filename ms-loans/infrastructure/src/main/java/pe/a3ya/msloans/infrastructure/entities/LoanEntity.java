@@ -43,4 +43,6 @@ public class LoanEntity extends Auditory {
     private Double fee; // cuota
     @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<GuarantiesEntity> guaranties;
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<PaymentInstallmentEntity> paymentInstallments;
 }

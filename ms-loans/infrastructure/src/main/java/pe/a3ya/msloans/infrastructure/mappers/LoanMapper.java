@@ -22,11 +22,12 @@ public class LoanMapper {
                 .status(loanEntity.getStatus())
                 .term(loanEntity.getTerm())
                 .fee(loanEntity.getFee())
-                .guaranties(GuarantiesMapper.fromEntityToDtoList(loanEntity.getGuaranties()))
                 .createdBy(loanEntity.getCreatedBy())
                 .createdAt(loanEntity.getCreatedAt())
                 .updatedBy(loanEntity.getUpdatedBy())
                 .updatedAt(loanEntity.getUpdatedAt())
+                .guaranties(GuarantiesMapper.fromEntityToDtoList(loanEntity.getGuaranties()))
+                .paymentInstallments(PaymentInstallmentMapper.fromEntityToDtoList(loanEntity.getPaymentInstallments()))
                 .build();
     }
 
