@@ -1,6 +1,9 @@
-drop database if exists sprestamo;
-create database sprestamo;
-\c sprestamo;
+drop
+database if exists sprestamo;
+create
+database sprestamo;
+\c
+sprestamo;
 
 -- MS Customers
 create table document_types
@@ -35,10 +38,10 @@ create table customers
     date_birth       date         not null,
     created_by       integer      not null,
     created_at       timestamp    not null,
-    updated_by       integer      null,
-    updated_at       timestamp    null,
-    deleted_by       integer      null,
-    deleted_at       timestamp    null,
+    updated_by       integer null,
+    updated_at       timestamp null,
+    deleted_by       integer null,
+    deleted_at       timestamp null,
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
 );
@@ -53,16 +56,16 @@ create table addresses
     street      varchar(100) null,
     number      varchar(100) null,
     reference   varchar(100) not null,
-    postal_code varchar(20)  null,
-    latitude    varchar(50)  null,
-    longitude   varchar(50)  null,
+    postal_code varchar(20) null,
+    latitude    varchar(50) null,
+    longitude   varchar(50) null,
     customer_id integer      not null,
     created_by  integer      not null,
     created_at  timestamp    not null,
-    updated_by  integer      null,
-    updated_at  timestamp    null,
-    deleted_by  integer      null,
-    deleted_at  timestamp    null,
+    updated_by  integer null,
+    updated_at  timestamp null,
+    deleted_by  integer null,
+    deleted_at  timestamp null,
     constraint fk_address_customer
         foreign key (customer_id) references customers (id)
 );
@@ -88,10 +91,10 @@ create table loans
     fee            numeric(24, 6) not null,
     created_by     integer        not null,
     created_at     timestamp      not null,
-    updated_by     integer        null,
-    updated_at     timestamp      null,
-    deleted_by     integer        null,
-    deleted_at     timestamp      null,
+    updated_by     integer null,
+    updated_at     timestamp null,
+    deleted_by     integer null,
+    deleted_at     timestamp null,
     constraint fk_loan_customer
         foreign key (customer_id) references customers (id)
 );
@@ -107,23 +110,24 @@ create table guaranties
     image_url       varchar(255)   not null,
     created_by      integer        not null,
     created_at      timestamp      not null,
-    updated_by      integer        null,
-    updated_at      timestamp      null,
-    deleted_by      integer        null,
-    deleted_at      timestamp      null,
+    updated_by      integer null,
+    updated_at      timestamp null,
+    deleted_by      integer null,
+    deleted_at      timestamp null,
     constraint fk_guaranty_loan
         foreign key (loan_id) references loans (id)
 );
 
-create table payment_installments(
-    id serial primary key,
-    loan_id integer not null,
-    amount numeric(24, 6) not null,
-    start_date date not null,
-    end_date date not null,
-    status varchar(50) not null,
-    created_by integer not null,
-    created_at timestamp not null,
+create table payment_installments
+(
+    id         serial primary key,
+    loan_id    integer        not null,
+    amount     numeric(24, 6) not null,
+    start_date date           not null,
+    end_date   date           not null,
+    status     varchar(50)    not null,
+    created_by integer        not null,
+    created_at timestamp      not null,
     updated_by integer null,
     updated_at timestamp null,
     deleted_by integer null,
@@ -135,7 +139,8 @@ create table payment_installments(
 -- MS loans
 drop table if exists users;
 
-create table users(
+create table users
+(
     id               serial primary key,
     document_type_id varchar(1)   not null,
     document_number  varchar(20)  not null,
@@ -143,6 +148,7 @@ create table users(
     last_name        varchar(100) not null,
     mother_last_name varchar(100) not null,
     email            varchar(100) not null,
+    password         varchar(100) not null,
     phone            varchar(10)  not null,
     date_birth       date         not null,
     created_by       integer      not null,
@@ -153,4 +159,20 @@ create table users(
     deleted_at       timestamp null,
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
+);
+create table rol
+(
+    id        serial primary key,
+    name_role varchar(100) not null
+);
+
+create table user_role
+(
+    id_user serial,
+    id_rol  serial,
+    constraint fk_users
+        foreign key (id_user) references users (id),
+    constraint fk_rol
+        foreign key (id_rol) references rol (id)
+
 );

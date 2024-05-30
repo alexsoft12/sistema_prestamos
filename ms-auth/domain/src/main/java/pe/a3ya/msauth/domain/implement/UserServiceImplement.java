@@ -1,6 +1,7 @@
 package pe.a3ya.msauth.domain.implement;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import pe.a3ya.msauth.domain.aggregates.dto.UserDto;
 import pe.a3ya.msauth.domain.aggregates.requests.UserRequest;
@@ -39,5 +40,15 @@ public class UserServiceImplement implements UserServiceIn {
     @Override
     public void delete(Long id) {
         userServiceOut.delete(id);
+    }
+
+    @Override
+    public UserDetailsService userDetailService() {
+        return userServiceOut.userDetailService();
+    }
+
+    @Override
+    public List<UserDto> getUsers() {
+        return userServiceOut.getUsers();
     }
 }
