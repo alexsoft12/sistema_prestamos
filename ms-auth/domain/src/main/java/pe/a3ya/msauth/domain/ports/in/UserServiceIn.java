@@ -1,5 +1,6 @@
 package pe.a3ya.msauth.domain.ports.in;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import pe.a3ya.msauth.domain.aggregates.dto.UserDto;
 import pe.a3ya.msauth.domain.aggregates.requests.UserRequest;
 
@@ -12,5 +13,7 @@ public interface UserServiceIn {
     List<UserDto> getAll();
     UserDto update(Long id, UserRequest userRequest);
     void delete(Long id);
+    UserDetailsService userDetailService();
+    List<UserDto> getUsers();
 
 }

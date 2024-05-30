@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter
@@ -19,11 +20,13 @@ public class UserDto {
     private String lastName;
     private String motherLastName;
     private String email;
+    private String password;
     private String phone;
     private LocalDate dateBirth;
     private Long createdBy;
     private Timestamp createdAt;
     private Long updatedBy;
     private Timestamp updatedAt;
+    private List<RolDto> roles;
 
 }

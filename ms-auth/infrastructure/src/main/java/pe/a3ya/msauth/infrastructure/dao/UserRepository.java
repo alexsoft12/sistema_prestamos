@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     default void delete(UserEntity entity) {
         save(entity);
     }
+
+    Optional<UserEntity> findByEmail(String email);
+
 }

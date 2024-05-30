@@ -18,7 +18,7 @@ public class UsersController {
     private final UserServiceIn userServiceIn;
 
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<UserDto> register(@RequestBody UserRequest userRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -34,7 +34,7 @@ public class UsersController {
         return ResponseEntity.ok().body(userDto);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAll() {
         return ResponseEntity
                 .status(HttpStatus.OK)
