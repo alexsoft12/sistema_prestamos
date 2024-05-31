@@ -1,11 +1,13 @@
-package pe.a3ya.mscustomers.infrastructure.mapers;
+package pe.a3ya.mscustomers.infrastructure.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerMapper {
     public static CustomerDto fromEntityToDto(CustomerEntity customerEntity) {
         return CustomerDto.builder()
@@ -27,6 +29,6 @@ public class CustomerMapper {
     }
 
     public static List<CustomerDto> fromEntityToDtoList(List<CustomerEntity> customerEntities) {
-        return customerEntities.stream().map(CustomerMapper::fromEntityToDto).collect(Collectors.toList());
+        return customerEntities.stream().map(CustomerMapper::fromEntityToDto).toList();
     }
 }

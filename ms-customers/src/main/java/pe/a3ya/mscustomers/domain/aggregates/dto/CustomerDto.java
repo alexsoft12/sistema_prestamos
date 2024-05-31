@@ -26,5 +26,4 @@ public class CustomerDto {
     private Timestamp createdAt;
     private Long updatedBy;
     private Timestamp updatedAt;
-
 }

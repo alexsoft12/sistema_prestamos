@@ -2,14 +2,17 @@ package pe.a3ya.mscustomers.infrastructure.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Util {
     public static <T> String convertirAString(T objetoDto) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(objetoDto);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+           return null;
         }
     }
 
@@ -18,7 +21,7 @@ public class Util {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(json, tipoClase);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 }
