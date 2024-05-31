@@ -1,5 +1,6 @@
 package pe.a3ya.msloans.application.Controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class LoanController {
     private final LoanServiceIn loanServiceIn;
 
     @PostMapping
-    public ResponseEntity<LoanDto> register(@RequestBody LoanRequest loanRequest) {
+    public ResponseEntity<LoanDto> register(@Valid @RequestBody LoanRequest loanRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(loanServiceIn.save(loanRequest));
@@ -45,7 +46,7 @@ public class LoanController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LoanDto> updateLoan(@PathVariable Long id, @RequestBody LoanRequest loanRequest) {
+    public ResponseEntity<LoanDto> updateLoan(@PathVariable Long id, @Valid @RequestBody LoanRequest loanRequest) {
         LoanDto loanDto = loanServiceIn.update(id, loanRequest);
         if (loanDto == null) {
             return ResponseEntity
