@@ -16,6 +16,10 @@
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
+
+        <sonar.coverage.exclusions>**/pe/a3ya/mscustomers/application/controllers/**</sonar.coverage.exclusions>
+        <sonar.host.url>http://localhost:9000/</sonar.host.url>
+        <sonar.login>sqp_f43d2f06a9b11889ec66843c31b7bfc5f0c34cf6</sonar.login>
     </properties>
     <dependencies>
         <dependency>
@@ -84,6 +88,30 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>pe/a3ya/mscustomers/application/controllers/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
