@@ -13,11 +13,6 @@
 	<version>0.0.1-SNAPSHOT</version>
     <name>ms-loans</name>
 	<description>ms-loans</description>
-    <modules>
-        <module>application</module>
-		<module>domain</module>
-		<module>infrastructure</module>
-	</modules>
     <properties>
 		<java.version>17</java.version>
 	</properties>
