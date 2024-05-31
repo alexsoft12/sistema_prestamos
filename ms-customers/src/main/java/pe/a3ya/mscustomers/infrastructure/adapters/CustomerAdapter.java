@@ -13,7 +13,7 @@ import pe.a3ya.mscustomers.infrastructure.dao.AddressRepository;
 import pe.a3ya.mscustomers.infrastructure.dao.CustomerRepository;
 import pe.a3ya.mscustomers.infrastructure.entities.AddressEntity;
 import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
-import pe.a3ya.mscustomers.infrastructure.mapers.CustomerMapper;
+import pe.a3ya.mscustomers.infrastructure.mappers.CustomerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

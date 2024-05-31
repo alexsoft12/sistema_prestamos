@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers.infrastructure.mapers;
+package pe.a3ya.mscustomers.infrastructure.mappers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,6 @@ import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerMapper {

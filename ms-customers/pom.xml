@@ -19,7 +19,7 @@
 
         <sonar.coverage.exclusions>**/pe/a3ya/mscustomers/application/controllers/**</sonar.coverage.exclusions>
         <sonar.host.url>http://localhost:9000/</sonar.host.url>
-        <sonar.login>sqp_f43d2f06a9b11889ec66843c31b7bfc5f0c34cf6</sonar.login>
+        <sonar.login>${env.SONAR_LOGIN_KEY}</sonar.login>
     </properties>
     <dependencies>
         <dependency>
