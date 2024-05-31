@@ -8,7 +8,7 @@ import java.util.List;
 public interface PayServiceOut {
     PayDto save(PayRequest payRequest);
 
-    PayDto findById(Long id);
+    PayDto getById(Long id);
 
     List<PayDto> getAll();
 

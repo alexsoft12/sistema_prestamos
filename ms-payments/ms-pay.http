@@ -1,0 +1,26 @@
+### GET request to example server
+POST http://localhost:8083/api/v1/pay
+Content-Type: application/json
+
+{
+  "installments_id": 7 ,
+  "modality": "moda1",
+  "method": "Plin" ,
+  "amount": 460.20
+}
+###
+GET http://localhost:8083/api/v1/pay/1
+###
+GET http://localhost:8083/api/v1/pay
+###
+PUT http://localhost:8083/api/v1/loans/1
+Content-Type: application/json
+
+{
+    "installments_id": 5,
+    "modality": "moda1",
+    "method": "plin",
+    "amount": 170.0
+}
+###
+DELETE http://localhost:8083/api/v1/loans/1

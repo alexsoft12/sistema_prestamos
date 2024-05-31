@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "pay")
@@ -17,7 +17,7 @@ public class PayEntity extends Auditory{
     @Column(name = "installments_id" )
     private Long installments_id;
     @Column(name = "day" )
-    private LocalDate day;
+    private Timestamp day;
     @Column(name = "modality" )
     private String modality;
     @Column(name = "method" )
