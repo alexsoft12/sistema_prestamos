@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 
 @Builder
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 public class PayDto {
     private Long id;
     private Long installments_id;
-    private LocalDate day;
+    private Timestamp day;
     private String modality;
     private String method;
     private double amount;
