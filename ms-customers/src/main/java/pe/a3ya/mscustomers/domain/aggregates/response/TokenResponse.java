@@ -1,8 +1,6 @@
 package pe.a3ya.mscustomers.domain.aggregates.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

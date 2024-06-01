@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -21,7 +22,7 @@ public class CustomerDto {
     private String motherLastName;
     private String email;
     private String phone;
-    private String dateBirth;
+    private LocalDate dateBirth;
     private List<AddressDto> addresses;
     private Long createdBy;
     private Timestamp createdAt;

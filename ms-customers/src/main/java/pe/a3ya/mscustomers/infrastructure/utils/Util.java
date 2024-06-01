@@ -12,7 +12,6 @@ public class Util {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(objetoDto);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
            return null;
         }
     }
@@ -22,7 +21,6 @@ public class Util {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(json, tipoClase);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             return null;
         }
     }

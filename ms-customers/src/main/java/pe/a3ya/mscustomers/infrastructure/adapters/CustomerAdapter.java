@@ -3,7 +3,6 @@ package pe.a3ya.mscustomers.infrastructure.adapters;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pe.a3ya.mscustomers.domain.aggregates.constants.Constant;
@@ -12,7 +11,7 @@ import pe.a3ya.mscustomers.domain.aggregates.dto.ReniecDto;
 import pe.a3ya.mscustomers.domain.aggregates.request.AddressRequest;
 import pe.a3ya.mscustomers.domain.aggregates.request.CustomerRequest;
 import pe.a3ya.mscustomers.domain.ports.out.CustomerServiceOut;
-import pe.a3ya.mscustomers.infrastructure.Redis.RedisService;
+import pe.a3ya.mscustomers.infrastructure.redis.RedisService;
 import pe.a3ya.mscustomers.infrastructure.clients.ApisNetReniecClient;
 import pe.a3ya.mscustomers.infrastructure.dao.AddressRepository;
 import pe.a3ya.mscustomers.infrastructure.dao.CustomerRepository;
@@ -62,9 +61,9 @@ public class CustomerAdapter implements CustomerServiceOut {
     @Override
     @Transactional
     public CustomerDto save(CustomerRequest customerRequest) {
-        Long user_id = securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         CustomerEntity customerEntity = getCustomerEntity(customerRequest);
-        customerEntity.setCreatedBy(user_id);
+        customerEntity.setCreatedBy(userId);
         CustomerEntity savedCustomer = customerRepository.save(customerEntity);
 
         List<AddressEntity> addressEntities = customerRequest.getAddresses().stream().map(addressRequest -> {
@@ -79,7 +78,7 @@ public class CustomerAdapter implements CustomerServiceOut {
             addressEntity.setPostalCode(addressRequest.getPostalCode());
             addressEntity.setLatitude(addressRequest.getLatitude());
             addressEntity.setLongitude(addressRequest.getLongitude());
-            addressEntity.setCreatedBy(user_id);
+            addressEntity.setCreatedBy(userId);
             addressEntity.setCustomer(savedCustomer);
             return addressEntity;
         }).collect(Collectors.toList());
@@ -128,10 +127,10 @@ public class CustomerAdapter implements CustomerServiceOut {
     @Override
     @Transactional
     public CustomerDto update(Long id, CustomerRequest customerRequest) {
-        Long user_id =securityValidator.validateSecurity();
+        Long userId =securityValidator.validateSecurity();
         CustomerEntity customerEntity = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
-        customerEntity.setUpdatedBy(user_id);
+        customerEntity.setUpdatedBy(userId);
         updateCustomerEntity(customerEntity, customerRequest);
 
         CustomerEntity updatedCustomer = customerRepository.save(customerEntity);
@@ -180,14 +179,14 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public void delete(Long id) {
-        Long user_id =securityValidator.validateSecurity();
+        Long userId =securityValidator.validateSecurity();
         CustomerEntity customer = customerRepository.findById(id).orElse(null);
         if (customer != null) {
-            customer.setDeletedBy(user_id);
+            customer.setDeletedBy(userId);
             customer.onDeleted();
             for (AddressEntity address : customer.getAddresses()) {
                 address.onDeleted();
-                address.setDeletedBy(user_id);
+                address.setDeletedBy(userId);
             }
             customerRepository.delete(customer);
         }
