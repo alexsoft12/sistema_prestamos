@@ -1,11 +1,14 @@
 package pe.a3ya.msauth.infrastructure.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pe.a3ya.msauth.domain.aggregates.dto.UserDto;
 import pe.a3ya.msauth.infrastructure.entities.UserEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {
     public static UserDto fromEntityToDto(UserEntity userEntity) {
         return UserDto.builder()

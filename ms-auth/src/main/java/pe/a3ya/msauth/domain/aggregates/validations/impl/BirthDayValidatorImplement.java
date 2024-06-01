@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class BirthDayValidatorImplement implements ConstraintValidator<ValidBirthday, LocalDate> {
     @Override
     public void initialize(ValidBirthday constraintAnnotation) {
+        throw new UnsupportedOperationException("Este método aún no está implementado.");
     }
 
     @Override
