@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class UserEntity extends Auditory implements UserDetails{
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,10 +44,10 @@ public class UserEntity extends Auditory implements UserDetails{
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBirth;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_rol",
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_rol"))
-    private transient Set<Rol> roles = new HashSet<>();
+    private  Set<Rol> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
