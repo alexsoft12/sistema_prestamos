@@ -139,12 +139,11 @@ public class LoanAdapter implements LoanServiceOut {
         if(loanRequest.getGuaranties() != null && !loanRequest.getGuaranties().isEmpty()) {
             List<GuarantiesEntity> guarantiesEntities = loanRequest.getGuaranties().stream().map(guarantiesRequest -> {
                 GuarantiesEntity guarantiesEntity = new GuarantiesEntity();
-                //guarantiesEntity.setId(guarantiesRequest.getId());
                 guarantiesEntity.setName(guarantiesRequest.getName());
                 guarantiesEntity.setDescription(guarantiesRequest.getDescription());
-                guarantiesEntity.setEstimated_value(guarantiesRequest.getEstimated_value());
+                guarantiesEntity.setEstimatedValue(guarantiesRequest.getEstimatedValue());
                 guarantiesEntity.setStatus(guarantiesRequest.getStatus());
-                guarantiesEntity.setImage_url(guarantiesRequest.getImage_url());
+                guarantiesEntity.setImageUrl(guarantiesRequest.getImageUrl());
                 guarantiesEntity.setLoan(savedLoan);
                 return guarantiesEntity;
 

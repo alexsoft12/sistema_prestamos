@@ -1,7 +1,6 @@
 package pe.a3ya.msloans.domain.aggregates.requests;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,10 +21,10 @@ public class GuarantiesRequest {
     private String description;
     @NotNull(message = "estimated Value is mandatory")
     @NotBlank(message = "estimated Value is mandatory")
-    private BigDecimal estimated_value;
+    private BigDecimal estimatedValue;
     @NotNull(message = "status is mandatory")
     @NotBlank(message = "status is mandatory")
     @Size(max = 1,message = "status must have a maximum of 1 chars")
     private String status;
-    private String image_url;
+    private String imageUrl;
 }

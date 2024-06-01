@@ -15,7 +15,7 @@ public class GuarantiesDto {
     private Long id;
     private String name;
     private String description;
-    private BigDecimal estimated_value;
+    private BigDecimal estimatedValue;
     private String status;
-    private String image_url;
+    private String imageUrl;
 }

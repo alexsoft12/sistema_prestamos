@@ -1,4 +1,4 @@
-package pe.a3ya.msloans.application.Controllers;
+package pe.a3ya.msloans.application.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,17 +35,17 @@ public class LoanController {
             summary = "Loan register",
             description = "To use the endpoint, you must send a LoanRequest object, which will be saved in the database.",
             parameters = {
-                    @Parameter(name = "customerId", description = "ID customer"),
-                    @Parameter(name = "amount", description = "loan amount requested by the client"),
-                    @Parameter(name = "paymentMethod", description = "payment method requested by the client"),
-                    @Parameter(name = "paymentType", description = "payment type requested by the client"),
-                    @Parameter(name = "contractDate", description = "Date the contract was signed"),
-                    @Parameter(name = "startDate", description = "Contract start date"),
-                    @Parameter(name = "endDate", description = "Contract end date"),
-                    @Parameter(name = "interestRate", description = "Interest rate applied to the loan"),
-                    @Parameter(name = "status", description = "Current status of the loan"),
-                    @Parameter(name = "term", description = "Term of the loan"),
-                    @Parameter(name = "fee", description = "Applicable fee or charge for the loan"),
+                    @Parameter(name="customerId", description="ID customer"),
+                    @Parameter(name="amount", description="loan amount requested by the client"),
+                    @Parameter(name="paymentMethod", description="payment method requested by the client"),
+                    @Parameter(name="paymentType", description="payment type requested by the client"),
+                    @Parameter(name="contractDate", description="Date the contract was signed"),
+                    @Parameter(name="startDate", description="Contract start date"),
+                    @Parameter(name="endDate", description="Contract end date"),
+                    @Parameter(name="interestRate", description="Interest rate applied to the loan"),
+                    @Parameter(name="status", description="Current status of the loan"),
+                    @Parameter(name="term", description="Term of the loan"),
+                    @Parameter(name="fee", description="Applicable fee or charge for the loan"),
                     @Parameter(name = "guaranties",
                             description = "List of customer guarantees",
                             schema = @Schema(
@@ -61,13 +61,9 @@ public class LoanController {
                     ))}
     )})
     public ResponseEntity<LoanDto> register(@Valid @RequestBody LoanRequest loanRequest) {
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(loanServiceIn.save(loanRequest));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-        }
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(loanServiceIn.save(loanRequest));
     }
 
     @GetMapping("/{id}")
@@ -83,19 +79,15 @@ public class LoanController {
                     ))}
     )})
     public ResponseEntity<LoanDto> getLoanById(@PathVariable Long id) {
-        try {
-            LoanDto loanDto = loanServiceIn.getById(id);
-            if (loanDto == null) {
-                return ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .body(null);
-            }
+        LoanDto loanDto = loanServiceIn.getById(id);
+        if (loanDto == null) {
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(loanDto);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
         }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanDto);
     }
 
     @GetMapping
@@ -111,13 +103,9 @@ public class LoanController {
                     ))}
     )})
     public ResponseEntity<List<LoanDto>> getAllLoans() {
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(loanServiceIn.getAll());
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanServiceIn.getAll());
     }
 
 
@@ -127,17 +115,17 @@ public class LoanController {
             summary = "Update loans by id ",
             description = "To use the endpoint, you must send a loan object along with its id, which will update the fields in the database..",
             parameters = {
-                    @Parameter(name = "customerId", description = "ID customer"),
-                    @Parameter(name = "amount", description = "loan amount requested by the client"),
-                    @Parameter(name = "paymentMethod", description = "payment method requested by the client"),
-                    @Parameter(name = "paymentType", description = "payment type requested by the client"),
-                    @Parameter(name = "contractDate", description = "Date the contract was signed"),
-                    @Parameter(name = "startDate", description = "Contract start date"),
-                    @Parameter(name = "endDate", description = "Contract end date"),
-                    @Parameter(name = "interestRate", description = "Interest rate applied to the loan"),
-                    @Parameter(name = "status", description = "Current status of the loan"),
-                    @Parameter(name = "term", description = "Term of the loan"),
-                    @Parameter(name = "fee", description = "Applicable fee or charge for the loan"),
+                    @Parameter(name="customerId", description="ID customer"),
+                    @Parameter(name="amount", description="loan amount requested by the client"),
+                    @Parameter(name="paymentMethod", description="payment method requested by the client"),
+                    @Parameter(name="paymentType", description="payment type requested by the client"),
+                    @Parameter(name="contractDate", description="Date the contract was signed"),
+                    @Parameter(name="startDate", description="Contract start date"),
+                    @Parameter(name="endDate", description="Contract end date"),
+                    @Parameter(name="interestRate", description="Interest rate applied to the loan"),
+                    @Parameter(name="status", description="Current status of the loan"),
+                    @Parameter(name="term", description="Term of the loan"),
+                    @Parameter(name="fee", description="Applicable fee or charge for the loan"),
                     @Parameter(name = "guaranties",
                             description = "List of customer guarantees",
                             schema = @Schema(
@@ -153,19 +141,15 @@ public class LoanController {
                     ))}
     )})
     public ResponseEntity<LoanDto> updateLoan(@PathVariable Long id, @Valid @RequestBody LoanRequest loanRequest) {
-        try {
-            LoanDto loanDto = loanServiceIn.update(id, loanRequest);
-            if (loanDto == null) {
-                return ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .body(null);
-            }
+        LoanDto loanDto = loanServiceIn.update(id, loanRequest);
+        if (loanDto == null) {
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(loanDto);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
         }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanDto);
     }
 
     @DeleteMapping("/{id}")
@@ -181,13 +165,9 @@ public class LoanController {
                     ))}
     )})
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id) {
-        try {
-            loanServiceIn.delete(id);
-            return ResponseEntity
-                    .status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-        }
+        loanServiceIn.delete(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(null);
     }
 }

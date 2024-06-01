@@ -1,11 +1,14 @@
 package pe.a3ya.msloans.infrastructure.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pe.a3ya.msloans.domain.aggregates.dto.LoanDto;
 import pe.a3ya.msloans.infrastructure.entities.LoanEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoanMapper {
 
     public static LoanDto fromEntityToDto(LoanEntity loanEntity) {
@@ -32,6 +35,6 @@ public class LoanMapper {
     }
 
     public static List<LoanDto> fromEntityToDtoList(List<LoanEntity> loans) {
-        return loans.stream().map(LoanMapper::fromEntityToDto).collect(Collectors.toList());
+        return loans.stream().map(LoanMapper::fromEntityToDto).toList();
     }
 }

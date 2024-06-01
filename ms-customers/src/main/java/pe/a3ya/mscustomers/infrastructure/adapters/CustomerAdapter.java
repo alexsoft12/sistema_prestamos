@@ -111,7 +111,7 @@ public class CustomerAdapter implements CustomerServiceOut {
                 CustomerDto customerDto = CustomerMapper.fromEntityToDto(customerEntity);
                 String dataForRedis = Util.convertirAString(customerDto);
                 if (dataForRedis != null) {
-                    redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER + id, dataForRedis, 1000);
+                    redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER + id, dataForRedis, 20);
                 }
                 return Optional.ofNullable(customerDto);
             }

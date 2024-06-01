@@ -1,23 +1,25 @@
 package pe.a3ya.msloans.infrastructure.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pe.a3ya.msloans.domain.aggregates.dto.GuarantiesDto;
 import pe.a3ya.msloans.infrastructure.entities.GuarantiesEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GuarantiesMapper {
     public static GuarantiesDto fromEntityToDto(GuarantiesEntity guarantiesEntity) {
         return GuarantiesDto.builder()
                 .id(guarantiesEntity.getId())
                 .name(guarantiesEntity.getName())
                 .description(guarantiesEntity.getDescription())
-                .estimated_value(guarantiesEntity.getEstimated_value())
+                .estimatedValue(guarantiesEntity.getEstimatedValue())
                 .status(guarantiesEntity.getStatus())
-                .image_url(guarantiesEntity.getImage_url())
+                .imageUrl(guarantiesEntity.getImageUrl())
                 .build();
     }
     public static List<GuarantiesDto> fromEntityToDtoList(List<GuarantiesEntity> guarantiesEntities) {
-        return guarantiesEntities.stream().map(GuarantiesMapper::fromEntityToDto).collect(Collectors.toList());
+        return guarantiesEntities.stream().map(GuarantiesMapper::fromEntityToDto).toList();
     }
 }
