@@ -1,16 +1,22 @@
 package pe.a3ya.mscustomers.infrastructure.adapters;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pe.a3ya.mscustomers.domain.aggregates.constants.Constant;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.domain.aggregates.dto.ReniecDto;
 import pe.a3ya.mscustomers.domain.aggregates.request.AddressRequest;
 import pe.a3ya.mscustomers.domain.aggregates.request.CustomerRequest;
+import pe.a3ya.mscustomers.domain.aggregates.request.TokenRequest;
 import pe.a3ya.mscustomers.domain.ports.out.CustomerServiceOut;
 import pe.a3ya.mscustomers.infrastructure.Redis.RedisService;
 import pe.a3ya.mscustomers.infrastructure.clients.ApisNetReniecClient;
+import pe.a3ya.mscustomers.infrastructure.clients.SecurityClient;
 import pe.a3ya.mscustomers.infrastructure.dao.AddressRepository;
 import pe.a3ya.mscustomers.infrastructure.dao.CustomerRepository;
 import pe.a3ya.mscustomers.infrastructure.entities.AddressEntity;
@@ -34,6 +40,7 @@ public class CustomerAdapter implements CustomerServiceOut {
     private final ApisNetReniecClient reniecClient;
     private final AddressRepository addressRepository;
     private final RedisService redisService;
+    private final SecurityClient securityClient;
 
     @Value("${token.apis_net}")
     private String token;
@@ -61,6 +68,7 @@ public class CustomerAdapter implements CustomerServiceOut {
     @Override
     @Transactional
     public CustomerDto save(CustomerRequest customerRequest) {
+        validateSecurity();
         CustomerEntity customerEntity = getCustomerEntity(customerRequest);
         CustomerEntity savedCustomer = customerRepository.save(customerEntity);
 
@@ -88,6 +96,7 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public Optional<CustomerDto> getById(Long id) {
+        validateSecurity();
         // Buscar la entidad en el repositorio
         CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
 
@@ -113,13 +122,34 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public List<CustomerDto> getAll() {
+        validateSecurity();
+
         List<CustomerEntity> customerEntities = customerRepository.findAll();
         return CustomerMapper.fromEntityToDtoList(customerEntities);
+    }
+
+    private void validateSecurity() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        final String autHeader = request.getHeader("Authorization");
+        final String jwt ;
+        if(StringUtils.isEmpty(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
+            throw new RuntimeException("REQUIRED LOGIN");
+        }
+        jwt = autHeader.substring(7);
+
+        TokenRequest bodyToken = new TokenRequest();
+        bodyToken.setToken(jwt);
+
+        boolean res = securityClient.getSecurityToken(bodyToken);
+        if(!res){
+            throw new RuntimeException("REQUIRED LOGIN");
+        }
     }
 
     @Override
     @Transactional
     public CustomerDto update(Long id, CustomerRequest customerRequest) {
+        validateSecurity();
         CustomerEntity customerEntity = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
 
@@ -165,6 +195,7 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public void delete(Long id) {
+        validateSecurity();
         CustomerEntity customer = customerRepository.findById(id).orElse(null);
         if (customer != null) {
             customer.onDeleted();

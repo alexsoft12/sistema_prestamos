@@ -9,12 +9,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import pe.a3ya.msauth.domain.aggregates.requests.SignInRequest;
+import pe.a3ya.msauth.domain.aggregates.requests.TokenRequest;
 import pe.a3ya.msauth.domain.aggregates.response.AuthenticationResponse;
 import pe.a3ya.msauth.domain.ports.in.AuthenticationServiceIn;
+import pe.a3ya.msauth.domain.ports.in.JWTServiceIn;
+import pe.a3ya.msauth.domain.ports.in.UserServiceIn;
 
 
 @RestController
@@ -27,6 +32,8 @@ import pe.a3ya.msauth.domain.ports.in.AuthenticationServiceIn;
 public class AuthenticationController {
 
     private final AuthenticationServiceIn authenticationServiceIn;
+    private final JWTServiceIn jwtServiceIn;
+    private final UserServiceIn userServiceIn;
 
     @PostMapping("/signin")
     @Operation(
@@ -51,8 +58,25 @@ public class AuthenticationController {
             )
 
     })
+
     public ResponseEntity<AuthenticationResponse> signin(@Valid @RequestBody SignInRequest signInRequest) {
         return ResponseEntity.ok(authenticationServiceIn.signin(signInRequest));
+    }
+
+    @PostMapping("/security")
+    public ResponseEntity<Boolean> security(@RequestBody TokenRequest token) {
+        final String userEmail;
+        try {
+            userEmail = jwtServiceIn.extractUsername(token.getToken());
+            UserDetails userDetails = userServiceIn.userDetailService().loadUserByUsername(userEmail);
+
+            if (jwtServiceIn.validateToken(token.getToken(), userDetails)) {
+                return ResponseEntity.ok().body(true);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
 }
