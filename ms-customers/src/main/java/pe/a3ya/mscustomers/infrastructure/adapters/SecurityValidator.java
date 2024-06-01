@@ -14,11 +14,7 @@ import pe.a3ya.mscustomers.infrastructure.clients.SecurityClient;
 @AllArgsConstructor
 public class SecurityValidator {
 
-
     private final SecurityClient securityClient;
-
-
-
 
     public Long validateSecurity() {
         final String authHeader = getAuthHeader();

@@ -3,6 +3,7 @@ package pe.a3ya.mscustomers.infrastructure.adapters;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pe.a3ya.mscustomers.domain.aggregates.constants.Constant;
@@ -61,8 +62,9 @@ public class CustomerAdapter implements CustomerServiceOut {
     @Override
     @Transactional
     public CustomerDto save(CustomerRequest customerRequest) {
-        securityValidator.validateSecurity();
+        Long user_id = securityValidator.validateSecurity();
         CustomerEntity customerEntity = getCustomerEntity(customerRequest);
+        customerEntity.setCreatedBy(user_id);
         CustomerEntity savedCustomer = customerRepository.save(customerEntity);
 
         List<AddressEntity> addressEntities = customerRequest.getAddresses().stream().map(addressRequest -> {
@@ -77,6 +79,7 @@ public class CustomerAdapter implements CustomerServiceOut {
             addressEntity.setPostalCode(addressRequest.getPostalCode());
             addressEntity.setLatitude(addressRequest.getLatitude());
             addressEntity.setLongitude(addressRequest.getLongitude());
+            addressEntity.setCreatedBy(user_id);
             addressEntity.setCustomer(savedCustomer);
             return addressEntity;
         }).collect(Collectors.toList());
@@ -125,10 +128,10 @@ public class CustomerAdapter implements CustomerServiceOut {
     @Override
     @Transactional
     public CustomerDto update(Long id, CustomerRequest customerRequest) {
-        securityValidator.validateSecurity();
+        Long user_id =securityValidator.validateSecurity();
         CustomerEntity customerEntity = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
-
+        customerEntity.setUpdatedBy(user_id);
         updateCustomerEntity(customerEntity, customerRequest);
 
         CustomerEntity updatedCustomer = customerRepository.save(customerEntity);
@@ -150,9 +153,15 @@ public class CustomerAdapter implements CustomerServiceOut {
         // Para las direcciones, puedes comparar y actualizar o agregar nuevas
         List<AddressEntity> updatedAddresses = new ArrayList<>();
         for (AddressRequest addressRequest : customerRequest.getAddresses()) {
-            AddressEntity addressEntity = addressRequest.getId() != null
-                    ? addressRepository.findById(addressRequest.getId()).orElseGet(AddressEntity::new)
-                    : new AddressEntity();
+            AddressEntity addressEntity;
+            if (addressRequest.getId() != null){
+                addressEntity = addressRepository.findById(addressRequest.getId()).orElseGet(AddressEntity::new);
+                addressEntity.setUpdatedBy(customerEntity.getId());
+            } else {
+                addressEntity = new AddressEntity();
+                addressEntity.setCreatedBy(customerEntity.getId());
+            }
+
             addressEntity.setCustomer(customerEntity);
             addressEntity.setDepartment(addressRequest.getDepartment());
             addressEntity.setProvince(addressRequest.getProvince());
@@ -171,12 +180,14 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public void delete(Long id) {
-        securityValidator.validateSecurity();
+        Long user_id =securityValidator.validateSecurity();
         CustomerEntity customer = customerRepository.findById(id).orElse(null);
         if (customer != null) {
+            customer.setDeletedBy(user_id);
             customer.onDeleted();
             for (AddressEntity address : customer.getAddresses()) {
                 address.onDeleted();
+                address.setDeletedBy(user_id);
             }
             customerRepository.delete(customer);
         }
