@@ -14,12 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
+import pe.a3ya.msauth.domain.aggregates.dto.UserDto;
 import pe.a3ya.msauth.domain.aggregates.requests.SignInRequest;
 import pe.a3ya.msauth.domain.aggregates.requests.TokenRequest;
 import pe.a3ya.msauth.domain.aggregates.response.AuthenticationResponse;
+import pe.a3ya.msauth.domain.aggregates.response.TokenResponse;
 import pe.a3ya.msauth.domain.ports.in.AuthenticationServiceIn;
 import pe.a3ya.msauth.domain.ports.in.JWTServiceIn;
 import pe.a3ya.msauth.domain.ports.in.UserServiceIn;
+
+import java.util.Optional;
 
 
 @RestController
@@ -64,19 +68,25 @@ public class AuthenticationController {
     }
 
     @PostMapping("/security")
-    public ResponseEntity<Boolean> security(@RequestBody TokenRequest token) {
+    public ResponseEntity<TokenResponse> security(@RequestBody TokenRequest token) {
         final String userEmail;
+        TokenResponse response = new TokenResponse();
         try {
             userEmail = jwtServiceIn.extractUsername(token.getToken());
             UserDetails userDetails = userServiceIn.userDetailService().loadUserByUsername(userEmail);
+            Optional<UserDto> userInfo = userServiceIn.getByEmail(userEmail);
+
+            response.setId(userInfo.get().getId());
+            response.setEmail(userInfo.get().getEmail());
 
             if (jwtServiceIn.validateToken(token.getToken(), userDetails)) {
-                return ResponseEntity.ok().body(true);
+                response.setState(true);
+                return ResponseEntity.ok().body(response);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.OK).body(false);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(false);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 }
