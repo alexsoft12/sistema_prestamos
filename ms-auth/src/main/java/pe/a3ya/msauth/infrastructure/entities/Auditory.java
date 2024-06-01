@@ -45,8 +45,12 @@ public class Auditory {
 
 
     private static Long getUserId() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ((UserEntity) userDetails).getId();
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return ((UserEntity) userDetails).getId();
+        }catch (Exception e){
+            return null;
+        }
     }
 
 }
