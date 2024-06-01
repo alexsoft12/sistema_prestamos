@@ -7,11 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import pe.a3ya.mscustomers.domain.aggregates.dto.AddressDto;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
@@ -21,10 +17,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @AllArgsConstructor
@@ -163,7 +158,7 @@ public class CustomerController {
                     @Parameter(name = "id", description = "customer id")
             })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Company deleted successfully",
+            @ApiResponse(responseCode = "200", description = "Customer deleted successfully",
                     content = {@Content(mediaType = "appication/json",
                             schema = @Schema(implementation = CustomerDto.class))})
     })
