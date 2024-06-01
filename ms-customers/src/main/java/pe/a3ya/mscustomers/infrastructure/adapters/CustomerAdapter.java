@@ -1,34 +1,27 @@
 package pe.a3ya.mscustomers.infrastructure.adapters;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.stereotype.Service;
 import pe.a3ya.mscustomers.domain.aggregates.constants.Constant;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.domain.aggregates.dto.ReniecDto;
 import pe.a3ya.mscustomers.domain.aggregates.request.AddressRequest;
 import pe.a3ya.mscustomers.domain.aggregates.request.CustomerRequest;
-import pe.a3ya.mscustomers.domain.aggregates.request.TokenRequest;
 import pe.a3ya.mscustomers.domain.ports.out.CustomerServiceOut;
 import pe.a3ya.mscustomers.infrastructure.Redis.RedisService;
 import pe.a3ya.mscustomers.infrastructure.clients.ApisNetReniecClient;
-import pe.a3ya.mscustomers.infrastructure.clients.SecurityClient;
 import pe.a3ya.mscustomers.infrastructure.dao.AddressRepository;
 import pe.a3ya.mscustomers.infrastructure.dao.CustomerRepository;
 import pe.a3ya.mscustomers.infrastructure.entities.AddressEntity;
 import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
 import pe.a3ya.mscustomers.infrastructure.mappers.CustomerMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import pe.a3ya.mscustomers.infrastructure.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,7 +33,7 @@ public class CustomerAdapter implements CustomerServiceOut {
     private final ApisNetReniecClient reniecClient;
     private final AddressRepository addressRepository;
     private final RedisService redisService;
-    private final SecurityClient securityClient;
+    private final SecurityValidator securityValidator;
 
     @Value("${token.apis_net}")
     private String token;
@@ -68,7 +61,7 @@ public class CustomerAdapter implements CustomerServiceOut {
     @Override
     @Transactional
     public CustomerDto save(CustomerRequest customerRequest) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         CustomerEntity customerEntity = getCustomerEntity(customerRequest);
         CustomerEntity savedCustomer = customerRepository.save(customerEntity);
 
@@ -96,7 +89,7 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public Optional<CustomerDto> getById(Long id) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         // Buscar la entidad en el repositorio
         CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
 
@@ -122,42 +115,17 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public List<CustomerDto> getAll() {
-        validateSecurity();
+        securityValidator.validateSecurity();
 
         List<CustomerEntity> customerEntities = customerRepository.findAll();
         return CustomerMapper.fromEntityToDtoList(customerEntities);
     }
 
-    private void validateSecurity() {
-        final String autHeader = getAutHeader();
-        final String jwt ;
-        if(StringUtils.hasLength(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
-            throw new IllegalArgumentException("Token no valido");
-        }
-        jwt = autHeader.substring(7);
-
-        TokenRequest bodyToken = new TokenRequest();
-        bodyToken.setToken(jwt);
-
-        boolean res = securityClient.getSecurityToken(bodyToken);
-        if(!res){
-            throw new IllegalArgumentException("Token no valido");
-        }
-    }
-
-    private static String getAutHeader() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes == null) {
-            throw new IllegalStateException("No request attributes found. This method must be called in the context of an HTTP request.");
-        }
-        HttpServletRequest request = attributes.getRequest();
-        return request.getHeader("Authorization");
-    }
 
     @Override
     @Transactional
     public CustomerDto update(Long id, CustomerRequest customerRequest) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         CustomerEntity customerEntity = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
 
@@ -203,7 +171,7 @@ public class CustomerAdapter implements CustomerServiceOut {
 
     @Override
     public void delete(Long id) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         CustomerEntity customer = customerRepository.findById(id).orElse(null);
         if (customer != null) {
             customer.onDeleted();

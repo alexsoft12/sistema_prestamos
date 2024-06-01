@@ -1,12 +1,12 @@
-package pe.a3ya.mspayments.infrastructure.adapters;
+package pe.a3ya.mscustomers.infrastructure.adapters;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import pe.a3ya.mspayments.domain.aggregates.request.TokenRequest;
-import pe.a3ya.mspayments.infrastructure.clients.SecurityClient;
+import pe.a3ya.mscustomers.domain.aggregates.request.TokenRequest;
+import pe.a3ya.mscustomers.infrastructure.clients.SecurityClient;
 
 @Service
 public class SecurityValidator {
