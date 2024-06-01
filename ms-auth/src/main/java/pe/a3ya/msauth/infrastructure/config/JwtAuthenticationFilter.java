@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        if(StringUtils.isEmpty(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
+        if(!StringUtils.hasLength(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
             filterChain.doFilter(request,response);
             return;
         }

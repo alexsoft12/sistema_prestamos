@@ -3,6 +3,8 @@ package pe.a3ya.msauth.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
 
@@ -26,18 +28,25 @@ public class Auditory {
     @PrePersist
     public void onCreated() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.createdBy = 1L; // TODO: get user from security context
+        this.createdBy = getUserId();
     }
 
     @PreUpdate
     public void onUpdated() {
         this.updatedAt = new Timestamp(System.currentTimeMillis());
-        this.updatedBy = 1L; // TODO: get user from security context
+        this.updatedBy = getUserId();
     }
 
     @PreRemove
     public void onDeleted() {
         this.deletedAt = new Timestamp(System.currentTimeMillis());
-        this.deletedBy = 1L; // TODO: get user from security context
+        this.deletedBy = getUserId();
     }
+
+
+    private static Long getUserId() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ((UserEntity) userDetails).getId();
+    }
+
 }

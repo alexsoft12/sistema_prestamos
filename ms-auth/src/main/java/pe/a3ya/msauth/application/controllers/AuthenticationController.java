@@ -76,6 +76,9 @@ public class AuthenticationController {
             UserDetails userDetails = userServiceIn.userDetailService().loadUserByUsername(userEmail);
             Optional<UserDto> userInfo = userServiceIn.getByEmail(userEmail);
 
+            if (userInfo.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            }
             response.setId(userInfo.get().getId());
             response.setEmail(userInfo.get().getEmail());
 

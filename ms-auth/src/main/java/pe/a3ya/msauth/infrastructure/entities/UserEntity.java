@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class UserEntity extends Auditory implements UserDetails{
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,13 +48,13 @@ public class UserEntity extends Auditory implements UserDetails{
     @JoinTable(name = "user_rol",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_rol"))
-    private Set<Rol> roles = new HashSet<>();
+    private transient Set<Rol> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(rol -> new SimpleGrantedAuthority(rol.getNameRole()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -85,4 +86,5 @@ public class UserEntity extends Auditory implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+
 }
