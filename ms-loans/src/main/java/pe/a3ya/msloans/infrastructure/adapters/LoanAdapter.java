@@ -33,11 +33,12 @@ public class LoanAdapter implements LoanServiceOut {
     final GuarantiesRepository guarantiesRepository;
     final PaymentInstallmentRepository installmentRepository;
     final SecurityClient securityClient;
+    private final SecurityValidator securityValidator;
 
     @Override
     @Transactional
     public LoanDto save(LoanRequest loanRequest) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         LoanEntity loanEntity = new LoanEntity();
         LoanEntity loanSaved = updateLoan(loanRequest, loanEntity);
 
@@ -59,7 +60,7 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public LoanDto getById(Long id) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity == null) {
             return null;
@@ -69,13 +70,13 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public List<LoanDto> getAll() {
-        validateSecurity();
+        securityValidator.validateSecurity();
         return LoanMapper.fromEntityToDtoList(loanRepository.findAll());
     }
 
     @Override
     public LoanDto update(Long id, LoanRequest loanRequest) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity == null) {
             return null;
@@ -161,7 +162,7 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public void delete(Long id) {
-        validateSecurity();
+        securityValidator.validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity != null) {
             loanEntity.onDeleted();
@@ -169,29 +170,5 @@ public class LoanAdapter implements LoanServiceOut {
         }
     }
 
-    private void validateSecurity() {
-        final String autHeader = getAutHeader();
-        final String jwt ;
-        if(StringUtils.hasLength(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
-            throw new IllegalArgumentException("Token no valido");
-        }
-        jwt = autHeader.substring(7);
 
-        TokenRequest bodyToken = new TokenRequest();
-        bodyToken.setToken(jwt);
-
-        boolean res = securityClient.getSecurityToken(bodyToken);
-        if(!res){
-            throw new IllegalArgumentException("Token no valido");
-        }
-    }
-
-    private static String getAutHeader() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes == null) {
-            throw new IllegalStateException("No request attributes found. This method must be called in the context of an HTTP request.");
-        }
-        HttpServletRequest request = attributes.getRequest();
-        return request.getHeader("Authorization");
-    }
 }
