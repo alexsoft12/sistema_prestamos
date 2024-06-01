@@ -1,12 +1,18 @@
 package pe.a3ya.msloans.infrastructure.adapters;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pe.a3ya.msloans.domain.aggregates.dto.LoanDto;
 import pe.a3ya.msloans.domain.aggregates.requests.LoanRequest;
 import pe.a3ya.msloans.domain.aggregates.requests.PaymentInstallmentRequest;
+import pe.a3ya.msloans.domain.aggregates.requests.TokenRequest;
 import pe.a3ya.msloans.domain.ports.out.LoanServiceOut;
+import pe.a3ya.msloans.infrastructure.clients.SecurityClient;
 import pe.a3ya.msloans.infrastructure.dao.GuarantiesRepository;
 import pe.a3ya.msloans.infrastructure.dao.LoanRepository;
 import pe.a3ya.msloans.infrastructure.entities.GuarantiesEntity;
@@ -26,10 +32,12 @@ public class LoanAdapter implements LoanServiceOut {
     final LoanRepository loanRepository;
     final GuarantiesRepository guarantiesRepository;
     final PaymentInstallmentRepository installmentRepository;
+    final SecurityClient securityClient;
 
     @Override
     @Transactional
     public LoanDto save(LoanRequest loanRequest) {
+        validateSecurity();
         LoanEntity loanEntity = new LoanEntity();
         LoanEntity loanSaved = updateLoan(loanRequest, loanEntity);
 
@@ -51,6 +59,7 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public LoanDto getById(Long id) {
+        validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity == null) {
             return null;
@@ -60,11 +69,13 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public List<LoanDto> getAll() {
+        validateSecurity();
         return LoanMapper.fromEntityToDtoList(loanRepository.findAll());
     }
 
     @Override
     public LoanDto update(Long id, LoanRequest loanRequest) {
+        validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity == null) {
             return null;
@@ -151,10 +162,29 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public void delete(Long id) {
+        validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity != null) {
             loanEntity.onDeleted();
             loanRepository.delete(loanEntity);
+        }
+    }
+
+    private void validateSecurity() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        final String autHeader = request.getHeader("Authorization");
+        final String jwt ;
+        if(StringUtils.isEmpty(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
+            throw new RuntimeException("REQUIRED LOGIN");
+        }
+        jwt = autHeader.substring(7);
+
+        TokenRequest bodyToken = new TokenRequest();
+        bodyToken.setToken(jwt);
+
+        boolean res = securityClient.getSecurityToken(bodyToken);
+        if(!res){
+            throw new RuntimeException("REQUIRED LOGIN");
         }
     }
 }
