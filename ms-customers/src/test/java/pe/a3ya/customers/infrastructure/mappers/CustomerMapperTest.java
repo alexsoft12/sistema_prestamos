@@ -8,7 +8,6 @@ import pe.a3ya.mscustomers.infrastructure.mappers.CustomerMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +52,7 @@ class CustomerMapperTest {
         assertEquals(customerEntity.getMotherLastName(), customerDto.getMotherLastName());
         assertEquals(customerEntity.getEmail(), customerDto.getEmail());
         assertEquals(customerEntity.getPhone(), customerDto.getPhone());
-        assertEquals(customerEntity.getDateBirth(), customerDto.getDateBirth());
+        assertEquals(customerEntity.getDateBirth().toString(), customerDto.getDateBirth());
         assertEquals(customerEntity.getAddresses().size(), customerDto.getAddresses().size());
 
     }
@@ -77,13 +76,12 @@ class CustomerMapperTest {
         addresses.add(addressEntity);
 
         CustomerEntity customerEntity1 = new CustomerEntity();
+        customerEntity1.setDateBirth(LocalDate.parse("1990-01-01"));
 
         customerEntity1.setAddresses(addresses);
 
-        CustomerEntity customerEntity2 = new CustomerEntity();
-        customerEntity2.setAddresses(addresses);
 
-        List<CustomerEntity> customerEntities = Arrays.asList(customerEntity1, customerEntity2);
+        List<CustomerEntity> customerEntities = List.of(customerEntity1);
 
         List<CustomerDto> customerDtos = CustomerMapper.fromEntityToDtoList(customerEntities);
 

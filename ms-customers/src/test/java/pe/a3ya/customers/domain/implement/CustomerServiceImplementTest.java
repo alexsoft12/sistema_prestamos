@@ -43,7 +43,7 @@ class CustomerServiceImplementTest {
                 .documentNumber("78996589")
                 .email("example@domain.com")
                 .phone("987654321")
-                .dateBirth(LocalDate.parse("1990-01-01"))
+                .dateBirth("1990-01-01")
                 .build();
     }
 
