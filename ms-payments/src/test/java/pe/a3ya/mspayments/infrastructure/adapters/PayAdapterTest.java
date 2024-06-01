@@ -123,10 +123,17 @@ public class PayAdapterTest {
 
     @Test
     void testInvalidToken() {
-        Mockito.doNothing().when(securityValidator).validateSecurity();
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            payAdapter.save(new PayRequest());
-        });
+        request.addHeader("Authorization", "Bearer invalid_token");
+
+        PayRequest payRequest = new PayRequest();
+        payRequest.setInstallmentsId(1L);
+        payRequest.setModality("modality");
+        payRequest.setMethod("method");
+        payRequest.setAmount(100);
+
+        assertThrows(RuntimeException.class, () -> payAdapter.save(payRequest));
     }
 }
