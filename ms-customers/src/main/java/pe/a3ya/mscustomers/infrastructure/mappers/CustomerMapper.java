@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,7 +20,7 @@ public class CustomerMapper {
                 .motherLastName(customerEntity.getMotherLastName())
                 .email(customerEntity.getEmail())
                 .phone(customerEntity.getPhone())
-                .dateBirth(customerEntity.getDateBirth().toString())
+                .dateBirth(customerEntity.getDateBirth())
                 .addresses(AddressMapper.fromEntityToDtoList(customerEntity.getAddresses()))
                 .createdBy(customerEntity.getCreatedBy())
                 .createdAt(customerEntity.getCreatedAt())

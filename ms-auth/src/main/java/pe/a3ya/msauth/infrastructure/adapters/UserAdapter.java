@@ -3,6 +3,7 @@ package pe.a3ya.msauth.infrastructure.adapters;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -132,6 +133,11 @@ public class UserAdapter implements UserServiceOut {
     @Override
     public List<UserDto> getUsers() {
         return UserMapper.fromEntityToDtoList(userRepository.findAll());
+    }
+
+    @Override
+    public Optional<UserDto> getByEmail(String email) {
+            return Optional.ofNullable(UserMapper.fromEntityToDto(Objects.requireNonNull(userRepository.findByEmail(email).orElse(null))));
     }
 
 

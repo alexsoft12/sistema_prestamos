@@ -30,6 +30,6 @@ public class UserMapper {
     }
 
     public static List<UserDto> fromEntityToDtoList(List<UserEntity> usersEntities) {
-        return usersEntities.stream().map(UserMapper::fromEntityToDto).collect(Collectors.toList());
+        return usersEntities.stream().map(UserMapper::fromEntityToDto).toList();
     }
 }

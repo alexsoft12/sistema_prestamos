@@ -51,4 +51,9 @@ public class UserServiceImplement implements UserServiceIn {
     public List<UserDto> getUsers() {
         return userServiceOut.getUsers();
     }
+
+    @Override
+    public Optional<UserDto> getByEmail(String email) {
+        return userServiceOut.getByEmail(email);
+    }
 }

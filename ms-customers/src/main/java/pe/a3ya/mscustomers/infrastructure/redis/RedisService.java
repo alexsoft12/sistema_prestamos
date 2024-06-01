@@ -1,4 +1,4 @@
-package pe.a3ya.mscustomers.infrastructure.Redis;
+package pe.a3ya.mscustomers.infrastructure.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
