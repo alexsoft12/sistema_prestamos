@@ -85,42 +85,6 @@ public class CustomerAdapter implements CustomerServiceOut {
         customerRepository.save(savedCustomer);
         return CustomerMapper.fromEntityToDto(savedCustomer);
     }
-    /*
-    //SIN REDIS
-    @Override
-    public Optional<CustomerDto> getById(Long id) {
-        CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
-        if (customerEntity != null) {
-            return Optional.ofNullable(CustomerMapper.fromEntityToDto(customerEntity));
-        }
-        return Optional.empty();
-    }
-
-     */
-    /*
-    @Override
-    public Optional<CustomerDto> getById(Long id) {
-        CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
-        String redisInfo = redisService.getFromRedis(Constant.REDIS_KEY_GETCUSTOMER+id);
-
-        if(redisInfo != null) {
-            CustomerDto customerDto = Util.convertirDesdeString(redisInfo, CustomerDto.class);
-            return Optional.ofNullable(customerDto);
-        }else{
-            if (customerEntity != null) {
-                CustomerDto customerDto = CustomerMapper.fromEntityToDto(customerEntity);
-                String dataForRedis = Util.convertirAString(customerDto);
-                if(dataForRedis != null) {
-                    redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER + id, dataForRedis, 1000);
-                }
-
-                return Optional.ofNullable(CustomerMapper.fromEntityToDto(customerEntity));
-            }
-        }
-        return Optional.empty();
-    }
-
-     */
 
     @Override
     public Optional<CustomerDto> getById(Long id) {
@@ -146,24 +110,6 @@ public class CustomerAdapter implements CustomerServiceOut {
 
         return Optional.empty();
     }
-
-
-    /*
-    @Override
-    public Optional<CustomerDto> getById(Long id) {
-        String redisInfo = redisService.getFromRedis(Constant.REDIS_KEY_GETCUSTOMER+id);
-        if(redisInfo!= null){
-            CustomerDto customerDto = Util.convertirDesdeString(redisInfo,CustomerDto.class);
-            return Optional.of(customerDto);
-        }else{
-            CustomerDto empresaDto = CustomerMapper.fromEntityToDto(customerRepository.findById(id).get());
-            String dataForRedis = Util.convertirAString(empresaDto);
-            redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER+id,dataForRedis,10);
-            return Optional.of(CustomerDto.builder().build());
-        }
-    }
-
-     */
 
     @Override
     public List<CustomerDto> getAll() {
