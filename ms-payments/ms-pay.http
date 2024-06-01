@@ -3,7 +3,7 @@ POST http://localhost:8083/api/v1/pay
 Content-Type: application/json
 
 {
-  "installments_id": 7 ,
+  "installmentsId": 1,
   "modality": "moda1",
   "method": "Plin" ,
   "amount": 460.20
@@ -17,7 +17,7 @@ PUT http://localhost:8083/api/v1/loans/1
 Content-Type: application/json
 
 {
-    "installments_id": 5,
+    "installmentsId": 1,
     "modality": "moda1",
     "method": "plin",
     "amount": 170.0

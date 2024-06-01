@@ -15,7 +15,7 @@ public class PayEntity extends Auditory{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "installments_id" )
-    private Long installments_id;
+    private Long installmentsId;
     @Column(name = "day" )
     private Timestamp day;
     @Column(name = "modality" )

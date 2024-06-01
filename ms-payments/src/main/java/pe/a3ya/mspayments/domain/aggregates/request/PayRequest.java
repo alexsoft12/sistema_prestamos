@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PayRequest {
 
-    private Long installments_id;
+    private Long installmentsId;
     private String modality;
     private String method;
     private double amount;

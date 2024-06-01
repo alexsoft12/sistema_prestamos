@@ -26,18 +26,18 @@ public class Auditory {
     @PrePersist
     public void onCreated() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.createdBy = 1L; // TODO: get user from security context
+        this.createdBy = 1L;
     }
 
     @PreUpdate
     public void onUpdated() {
         this.updatedAt = new Timestamp(System.currentTimeMillis());
-        this.updatedBy = 1L; // TODO: get user from security context
+        this.updatedBy = 1L;
     }
 
     @PreRemove
     public void onDeleted() {
         this.deletedAt = new Timestamp(System.currentTimeMillis());
-        this.deletedBy = 1L; // TODO: get user from security context
+        this.deletedBy = 1L;
     }
 }

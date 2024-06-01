@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Getter
 public class PayDto {
     private Long id;
-    private Long installments_id;
+    private Long installmentsId;
     private Timestamp day;
     private String modality;
     private String method;

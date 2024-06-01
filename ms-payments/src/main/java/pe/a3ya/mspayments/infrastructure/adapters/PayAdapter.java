@@ -56,7 +56,7 @@ public class PayAdapter implements PayServiceOut {
     }
 
     private PayEntity getPayEntity(PayRequest payRequest, PayEntity payEntity) {
-        payEntity.setInstallments_id(payRequest.getInstallments_id());
+        payEntity.setInstallmentsId(payRequest.getInstallmentsId());
         payEntity.setDay(getTimestamp());
         payEntity.setModality(payRequest.getModality());
         payEntity.setMethod(payRequest.getMethod());
