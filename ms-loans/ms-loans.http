@@ -17,9 +17,9 @@ Content-Type: application/json
     {
       "name": "cosa 1",
       "description": "cosa 1",
-      "estimated_value": 34.56 ,
+      "estimatedValue": 34.56 ,
       "status": "1",
-      "image_url":"imagen1"
+      "imageUrl":"imagen1"
     }
   ]
 }
@@ -51,9 +51,9 @@ Content-Type: application/json
         "id": 1,
         "name": "cosa 1",
         "description": "cosa 1",
-        "estimated_value": 34.560000,
+        "estimatedValue": 34.560000,
         "status": "1",
-        "image_url": "imagen1"
+        "imageUrl": "imagen1"
       }
     ]
   }
