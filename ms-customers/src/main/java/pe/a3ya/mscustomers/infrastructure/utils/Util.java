@@ -12,6 +12,7 @@ public class Util {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(objetoDto);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
            return null;
         }
     }
