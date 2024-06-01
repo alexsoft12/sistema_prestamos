@@ -81,11 +81,10 @@ public class PayAdapter implements PayServiceOut {
     }
 
     private void validateSecurity() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        final String autHeader = request.getHeader("Authorization");
+        final String autHeader = getAutHeader();
         final String jwt ;
-        if(StringUtils.isEmpty(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
-            throw new RuntimeException("REQUIRED LOGIN");
+        if(StringUtils.hasLength(autHeader) || !StringUtils.startsWithIgnoreCase(autHeader, "Bearer ") ){
+            throw new IllegalArgumentException("Token no valido");
         }
         jwt = autHeader.substring(7);
 
@@ -94,7 +93,16 @@ public class PayAdapter implements PayServiceOut {
 
         boolean res = securityClient.getSecurityToken(bodyToken);
         if(!res){
-            throw new RuntimeException("REQUIRED LOGIN");
+            throw new IllegalArgumentException("Token no valido");
         }
+    }
+
+    private static String getAutHeader() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            throw new IllegalStateException("No request attributes found. This method must be called in the context of an HTTP request.");
+        }
+        HttpServletRequest request = attributes.getRequest();
+        return request.getHeader("Authorization");
     }
 }
