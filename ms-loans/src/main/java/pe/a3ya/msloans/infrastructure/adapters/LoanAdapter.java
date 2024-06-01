@@ -38,8 +38,9 @@ public class LoanAdapter implements LoanServiceOut {
     @Override
     @Transactional
     public LoanDto save(LoanRequest loanRequest) {
-        securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         LoanEntity loanEntity = new LoanEntity();
+        loanEntity.setCreatedBy(userId);
         LoanEntity loanSaved = updateLoan(loanRequest, loanEntity);
 
         List<PaymentInstallmentEntity> paymentInstallmentEntities = loanRequest.getPaymentInstallments().stream().map(paymentInstallmentRequest -> {
@@ -48,6 +49,7 @@ public class LoanAdapter implements LoanServiceOut {
             paymentInstallmentEntity.setStartDate(paymentInstallmentRequest.getStartDate());
             paymentInstallmentEntity.setEndDate(paymentInstallmentRequest.getEndDate());
             paymentInstallmentEntity.setStatus(paymentInstallmentRequest.getStatus());
+            paymentInstallmentEntity.setCreatedBy(userId);
             paymentInstallmentEntity.setLoan(loanSaved);
             return paymentInstallmentEntity;
         }).collect(Collectors.toList());
@@ -76,23 +78,26 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public LoanDto update(Long id, LoanRequest loanRequest) {
-        securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity == null) {
             return null;
         }
+        loanEntity.setUpdatedBy(userId);
         loanEntity.setId(id);
         LoanEntity loanUpdated = updateLoan(loanRequest, loanEntity);
 
         List<PaymentInstallmentEntity> installments = new ArrayList<>();
         for (int i = 0; i < loanRequest.getTerm(); i++) {
             PaymentInstallmentEntity paymentInstallmentEntity = getInstallment(loanRequest, i, loanUpdated);
+            paymentInstallmentEntity.setCreatedBy(userId);
             installments.add(paymentInstallmentEntity);
         }
         // eliminar las cuotas que no se necesitan
         if (loanRequest.getTerm() < loanUpdated.getPaymentInstallments().size()) {
             for (int i = loanRequest.getTerm(); i < loanUpdated.getPaymentInstallments().size(); i++) {
                 PaymentInstallmentEntity installment = loanUpdated.getPaymentInstallments().get(i);
+                installment.setDeletedBy(userId);
                 installment.onDeleted();
                 installmentRepository.delete(installment);
             }
@@ -109,8 +114,10 @@ public class LoanAdapter implements LoanServiceOut {
         PaymentInstallmentEntity installment;
         if (loanRequest.getTerm() > loanUpdated.getPaymentInstallments().size()) {
             installment = new PaymentInstallmentEntity();
+            installment.setCreatedBy(loanUpdated.getCreatedBy());
         } else {
             installment = loanUpdated.getPaymentInstallments().get(i);
+            installment.setUpdatedBy(loanUpdated.getUpdatedBy());
         }
 
         installment.setAmount(paymentInstallmentRequest.getAmount());
@@ -145,6 +152,7 @@ public class LoanAdapter implements LoanServiceOut {
                 guarantiesEntity.setEstimatedValue(guarantiesRequest.getEstimatedValue());
                 guarantiesEntity.setStatus(guarantiesRequest.getStatus());
                 guarantiesEntity.setImageUrl(guarantiesRequest.getImageUrl());
+                guarantiesEntity.setCreatedBy(savedLoan.getCreatedBy());
                 guarantiesEntity.setLoan(savedLoan);
                 return guarantiesEntity;
 
@@ -162,10 +170,11 @@ public class LoanAdapter implements LoanServiceOut {
 
     @Override
     public void delete(Long id) {
-        securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         LoanEntity loanEntity = loanRepository.findById(id).orElse(null);
         if (loanEntity != null) {
             loanEntity.onDeleted();
+            loanEntity.setDeletedBy(userId);
             loanRepository.delete(loanEntity);
         }
     }
