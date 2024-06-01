@@ -1,11 +1,14 @@
 package pe.a3ya.msloans.infrastructure.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pe.a3ya.msloans.domain.aggregates.dto.PaymentInstallmentDto;
 import pe.a3ya.msloans.infrastructure.entities.PaymentInstallmentEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PaymentInstallmentMapper {
     public static PaymentInstallmentDto fromEntityToDto(PaymentInstallmentEntity paymentInstallment) {
         return PaymentInstallmentDto.builder()
@@ -17,6 +20,6 @@ public class PaymentInstallmentMapper {
                 .build();
     }
     public static List<PaymentInstallmentDto> fromEntityToDtoList(List<PaymentInstallmentEntity> paymentInstallmentEntities) {
-        return paymentInstallmentEntities.stream().map(PaymentInstallmentMapper::fromEntityToDto).collect(Collectors.toList());
+        return paymentInstallmentEntities.stream().map(PaymentInstallmentMapper::fromEntityToDto).toList();
     }
 }

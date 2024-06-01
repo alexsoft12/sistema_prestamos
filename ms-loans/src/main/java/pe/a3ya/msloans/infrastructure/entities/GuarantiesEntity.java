@@ -19,11 +19,11 @@ public class GuarantiesEntity extends Auditory {
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "estimated_value", nullable = false, precision = 24, scale = 6)
-    private BigDecimal estimated_value;
+    private BigDecimal estimatedValue;
     @Column(name = "status", nullable = false, length = 1)
     private String status;
     @Column(name = "image_url", nullable = false, length = 255)
-    private String image_url;
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_id", nullable = false)
