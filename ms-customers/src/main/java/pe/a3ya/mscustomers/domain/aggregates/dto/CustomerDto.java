@@ -20,7 +20,7 @@ public class CustomerDto {
     private String motherLastName;
     private String email;
     private String phone;
-    private LocalDate dateBirth;
+    private String dateBirth;
     private List<AddressDto> addresses;
     private Long createdBy;
     private Timestamp createdAt;

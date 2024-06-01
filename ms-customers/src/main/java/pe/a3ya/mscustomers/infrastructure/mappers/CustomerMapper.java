@@ -19,7 +19,7 @@ public class CustomerMapper {
                 .motherLastName(customerEntity.getMotherLastName())
                 .email(customerEntity.getEmail())
                 .phone(customerEntity.getPhone())
-                .dateBirth(customerEntity.getDateBirth())
+                .dateBirth(customerEntity.getDateBirth().toString())
                 .addresses(AddressMapper.fromEntityToDtoList(customerEntity.getAddresses()))
                 .createdBy(customerEntity.getCreatedBy())
                 .createdAt(customerEntity.getCreatedAt())
