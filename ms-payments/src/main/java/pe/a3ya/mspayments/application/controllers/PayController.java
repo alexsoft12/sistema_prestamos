@@ -22,7 +22,7 @@ public class PayController {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(payServiceIn.save(payRequest));
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -39,7 +39,7 @@ public class PayController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(payDto);
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -50,7 +50,7 @@ public class PayController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(payServiceIn.getAll());
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -67,7 +67,7 @@ public class PayController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(payDto);
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }
@@ -79,7 +79,7 @@ public class PayController {
             return ResponseEntity
                     .status(HttpStatus.NO_CONTENT)
                     .body(null);
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
     }

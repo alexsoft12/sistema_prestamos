@@ -24,7 +24,7 @@ import pe.a3ya.mspayments.infrastructure.dao.PayRepository;
 import pe.a3ya.mspayments.infrastructure.entities.PayEntity;
 
 @ExtendWith(MockitoExtension.class)
-public class PayAdapterTest {
+class PayAdapterTest {
 
     @Mock
     private PayRepository payRepository;
