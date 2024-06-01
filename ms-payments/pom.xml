@@ -15,8 +15,11 @@
     <description>ms-payments</description>
     <properties>
         <java.version>17</java.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+
         <sonar.coverage.exclusions>**/pe/a3ya/mspayments/application/controllers/**</sonar.coverage.exclusions>
         <sonar.host.url>http://localhost:9000/</sonar.host.url>
+        <!--suppress UnresolvedMavenProperty -->
         <sonar.login>${env.SONAR_LOGIN_KEY}</sonar.login>
     </properties>
     <dependencies>
@@ -44,7 +47,24 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

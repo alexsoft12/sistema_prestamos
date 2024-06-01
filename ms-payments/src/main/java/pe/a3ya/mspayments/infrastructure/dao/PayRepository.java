@@ -16,7 +16,7 @@ public interface PayRepository extends JpaRepository<PayEntity, Long> {
     List<PayEntity> findAll();
 
     @Override
-    @Query("SELECT p FROM PayEntity l where p.id = ?1 and p.deletedAt is null")
+    @Query("SELECT p FROM PayEntity p where p.id = ?1 and p.deletedAt is null")
     Optional<PayEntity> findById(Long id);
 
     @Override
