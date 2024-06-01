@@ -1,9 +1,8 @@
 drop
-database if exists sprestamo;
+    database if exists sprestamo;
 create
-database sprestamo;
-\c
-sprestamo;
+    database sprestamo;
+\c sprestamo;
 
 -- MS Customers
 create table document_types
@@ -38,10 +37,10 @@ create table customers
     date_birth       date         not null,
     created_by       integer      not null,
     created_at       timestamp    not null,
-    updated_by       integer null,
-    updated_at       timestamp null,
-    deleted_by       integer null,
-    deleted_at       timestamp null,
+    updated_by       integer      null,
+    updated_at       timestamp    null,
+    deleted_by       integer      null,
+    deleted_at       timestamp    null,
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
 );
@@ -56,16 +55,16 @@ create table addresses
     street      varchar(100) null,
     number      varchar(100) null,
     reference   varchar(100) not null,
-    postal_code varchar(20) null,
-    latitude    varchar(50) null,
-    longitude   varchar(50) null,
+    postal_code varchar(20)  null,
+    latitude    varchar(50)  null,
+    longitude   varchar(50)  null,
     customer_id integer      not null,
     created_by  integer      not null,
     created_at  timestamp    not null,
-    updated_by  integer null,
-    updated_at  timestamp null,
-    deleted_by  integer null,
-    deleted_at  timestamp null,
+    updated_by  integer      null,
+    updated_at  timestamp    null,
+    deleted_by  integer      null,
+    deleted_at  timestamp    null,
     constraint fk_address_customer
         foreign key (customer_id) references customers (id)
 );
@@ -91,10 +90,10 @@ create table loans
     fee            numeric(24, 6) not null,
     created_by     integer        not null,
     created_at     timestamp      not null,
-    updated_by     integer null,
-    updated_at     timestamp null,
-    deleted_by     integer null,
-    deleted_at     timestamp null,
+    updated_by     integer        null,
+    updated_at     timestamp      null,
+    deleted_by     integer        null,
+    deleted_at     timestamp      null,
     constraint fk_loan_customer
         foreign key (customer_id) references customers (id)
 );
@@ -110,10 +109,10 @@ create table guaranties
     image_url       varchar(255)   not null,
     created_by      integer        not null,
     created_at      timestamp      not null,
-    updated_by      integer null,
-    updated_at      timestamp null,
-    deleted_by      integer null,
-    deleted_at      timestamp null,
+    updated_by      integer        null,
+    updated_at      timestamp      null,
+    deleted_by      integer        null,
+    deleted_at      timestamp      null,
     constraint fk_guaranty_loan
         foreign key (loan_id) references loans (id)
 );
@@ -128,10 +127,10 @@ create table payment_installments
     status     varchar(50)    not null,
     created_by integer        not null,
     created_at timestamp      not null,
-    updated_by integer null,
-    updated_at timestamp null,
-    deleted_by integer null,
-    deleted_at timestamp null,
+    updated_by integer        null,
+    updated_at timestamp      null,
+    deleted_by integer        null,
+    deleted_at timestamp      null,
     constraint fk_payment_installment_loan
         foreign key (loan_id) references loans (id)
 );
@@ -153,31 +152,32 @@ create table users
     date_birth       date         not null,
     created_by       integer      not null,
     created_at       timestamp    not null,
-    updated_by       integer null,
-    updated_at       timestamp null,
-    deleted_by       integer null,
-    deleted_at       timestamp null,
+    updated_by       integer      null,
+    updated_at       timestamp    null,
+    deleted_by       integer      null,
+    deleted_at       timestamp    null,
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
 );
 
 -- MS payment
-create table pay(
+create table pay
+(
     id              serial primary key,
-    installments_id integer not null,
-    day             timestamp not null,
-    modality        varchar(20)  not null,
-    method          varchar(20)  not null,
+    installments_id integer        not null,
+    day             timestamp      not null,
+    modality        varchar(20)    not null,
+    method          varchar(20)    not null,
     amount          numeric(24, 6) not null,
-    created_by       integer      not null,
-    created_at       timestamp    not null,
-    updated_by       integer null,
-    updated_at       timestamp null,
-    deleted_by       integer null,
-    deleted_at       timestamp null,
+    created_by      integer        not null,
+    created_at      timestamp      not null,
+    updated_by      integer        null,
+    updated_at      timestamp      null,
+    deleted_by      integer        null,
+    deleted_at      timestamp      null,
     constraint fk_pay_payment_installment
         foreign key (installments_id) references payment_installments (id)
-)
+);
 
 create table rol
 (
@@ -201,3 +201,20 @@ create table user_role
         foreign key (id_rol) references rol (id)
 
 );
+
+INSERT INTO users (id, document_type_id, document_number, name, last_name, mother_last_name, email, password,
+                   phone, date_birth, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+VALUES (1, '1', '71991757', 'Yuler', 'Figueroa', 'Jimenez', 'yuleralex@gmail.com', 'root', '935836953', '2024-06-01', 1,
+        '2024-06-01 02:52:25.000000', null, null, null, null);
+
+INSERT INTO users (id, document_type_id, document_number, name, last_name, mother_last_name, email, password,
+                   phone, date_birth, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
+VALUES (2, '1', '71991754', 'Alex', 'Figueroa', 'Jimenez', 'yuleralex@gmail.com', 'root', '935836953', '2024-06-01', 1,
+        '2024-06-01 02:52:25.000000', null, null, null, null);
+
+
+
+INSERT INTO user_role (id_user, id_rol)
+VALUES (1, 1);
+INSERT INTO user_role (id_user, id_rol)
+VALUES (2, 2);
