@@ -1,15 +1,16 @@
 package pe.a3ya.mscustomers.domain.aggregates.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
+
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CustomerDto {
     private Long id;
