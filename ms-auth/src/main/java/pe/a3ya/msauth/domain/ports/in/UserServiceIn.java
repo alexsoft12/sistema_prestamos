@@ -15,5 +15,6 @@ public interface UserServiceIn {
     void delete(Long id);
     UserDetailsService userDetailService();
     List<UserDto> getUsers();
+    Optional<UserDto> getByEmail(String email);
 
 }
