@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pe.a3ya.mspayments.domain.aggregates.request.TokenRequest;
+import pe.a3ya.mspayments.domain.aggregates.response.TokenResponse;
 import pe.a3ya.mspayments.infrastructure.clients.SecurityClient;
 
 @Service
@@ -17,7 +18,7 @@ public class SecurityValidator {
         this.securityClient = securityClient;
     }
 
-    public void validateSecurity() {
+    public Long validateSecurity() {
         final String authHeader = getAuthHeader();
         final String jwt;
         if (!StringUtils.hasLength(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
@@ -28,10 +29,12 @@ public class SecurityValidator {
         TokenRequest bodyToken = new TokenRequest();
         bodyToken.setToken(jwt);
 
-        boolean res = securityClient.getSecurityToken(bodyToken);
-        if (!res) {
+        TokenResponse res = securityClient.getSecurityToken(bodyToken);
+        if (!res.isState()) {
             throw new IllegalArgumentException("Token no valido");
         }
+
+        return res.getId();
     }
 
     private static String getAuthHeader() {

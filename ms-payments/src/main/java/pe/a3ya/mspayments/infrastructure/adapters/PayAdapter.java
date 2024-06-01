@@ -20,9 +20,10 @@ public class PayAdapter implements PayServiceOut {
 
     @Override
     public PayDto save(PayRequest payRequest) {
-        securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         PayEntity payEntity = new PayEntity();
         PayEntity paySaved = getPayEntity(payRequest, payEntity);
+        paySaved.setCreatedBy(userId);
         return PayMapper.fromEntityToDto(payRepository.save(paySaved));
     }
 
@@ -44,19 +45,21 @@ public class PayAdapter implements PayServiceOut {
 
     @Override
     public PayDto update(Long id, PayRequest payRequest) {
-        securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         PayEntity payEntity = payRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
         getPayEntity(payRequest, payEntity);
+        payEntity.setUpdatedBy(userId);
         PayEntity updatePay = payRepository.save(payEntity);
         return PayMapper.fromEntityToDto(updatePay);
     }
 
     @Override
     public void delete(Long id) {
-        securityValidator.validateSecurity();
+        Long userId = securityValidator.validateSecurity();
         PayEntity payEntity = payRepository.findById(id).orElse(null);
         if (payEntity != null) {
             payEntity.onDeleted();
+            payEntity.setDeletedBy(userId);
             payRepository.save(payEntity);
         }
     }
