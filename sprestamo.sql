@@ -160,7 +160,6 @@ create table users
     constraint fk_customer_document_type
         foreign key (document_type_id) references document_types (code)
 );
-<<<<<<< HEAD
 
 -- MS payment
 create table pay(
@@ -179,12 +178,18 @@ create table pay(
     constraint fk_pay_payment_installment
         foreign key (installments_id) references payment_installments (id)
 )
-=======
+
 create table rol
 (
     id        serial primary key,
     name_role varchar(100) not null
 );
+
+-- INSERT ROL
+insert into rol (name_role)
+values ('ADMIN');
+insert into rol (name_role)
+values ('USER');
 
 create table user_role
 (
@@ -196,4 +201,3 @@ create table user_role
         foreign key (id_rol) references rol (id)
 
 );
->>>>>>> 5804d99b74f3d2b15cc4411f495d203e7417fa9f
