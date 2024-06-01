@@ -2,7 +2,7 @@ drop
     database if exists sprestamo;
 create
     database sprestamo;
-\c sprestamo;
+
 
 -- MS Customers
 create table document_types
@@ -169,7 +169,7 @@ create table pay
     modality        varchar(20)    not null,
     method          varchar(20)    not null,
     amount          numeric(24, 6) not null,
-    created_by      integer        not null,
+    created_by      integer        null,
     created_at      timestamp      not null,
     updated_by      integer        null,
     updated_at      timestamp      null,
@@ -201,20 +201,3 @@ create table user_role
         foreign key (id_rol) references rol (id)
 
 );
-
-INSERT INTO users (id, document_type_id, document_number, name, last_name, mother_last_name, email, password,
-                   phone, date_birth, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
-VALUES (1, '1', '71991757', 'Yuler', 'Figueroa', 'Jimenez', 'yuleralex@gmail.com', 'root', '935836953', '2024-06-01', 1,
-        '2024-06-01 02:52:25.000000', null, null, null, null);
-
-INSERT INTO users (id, document_type_id, document_number, name, last_name, mother_last_name, email, password,
-                   phone, date_birth, created_by, created_at, updated_by, updated_at, deleted_by, deleted_at)
-VALUES (2, '1', '71991754', 'Alex', 'Figueroa', 'Jimenez', 'yuleralex@gmail.com', 'root', '935836953', '2024-06-01', 1,
-        '2024-06-01 02:52:25.000000', null, null, null, null);
-
-
-
-INSERT INTO user_role (id_user, id_rol)
-VALUES (1, 1);
-INSERT INTO user_role (id_user, id_rol)
-VALUES (2, 2);
