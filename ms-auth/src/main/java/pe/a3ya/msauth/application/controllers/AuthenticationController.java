@@ -74,9 +74,9 @@ public class AuthenticationController {
                 return ResponseEntity.ok().body(true);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+            return ResponseEntity.status(HttpStatus.OK).body(false);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        return ResponseEntity.status(HttpStatus.OK).body(false);
     }
 
 }
