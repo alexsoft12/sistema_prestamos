@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -156,7 +155,7 @@ public class CustomerController {
                     @Parameter(name = "id", description = "customer id")
             })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Company deleted successfully",
+            @ApiResponse(responseCode = "200", description = "Customer deleted successfully",
                     content = {@Content(mediaType = "appication/json",
                             schema = @Schema(implementation = CustomerDto.class))})
     })
