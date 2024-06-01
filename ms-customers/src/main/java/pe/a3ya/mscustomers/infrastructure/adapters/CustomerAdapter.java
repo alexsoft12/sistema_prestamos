@@ -3,11 +3,13 @@ package pe.a3ya.mscustomers.infrastructure.adapters;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
+import pe.a3ya.mscustomers.domain.aggregates.constants.Constant;
 import pe.a3ya.mscustomers.domain.aggregates.dto.CustomerDto;
 import pe.a3ya.mscustomers.domain.aggregates.dto.ReniecDto;
 import pe.a3ya.mscustomers.domain.aggregates.request.AddressRequest;
 import pe.a3ya.mscustomers.domain.aggregates.request.CustomerRequest;
 import pe.a3ya.mscustomers.domain.ports.out.CustomerServiceOut;
+import pe.a3ya.mscustomers.infrastructure.Redis.RedisService;
 import pe.a3ya.mscustomers.infrastructure.clients.ApisNetReniecClient;
 import pe.a3ya.mscustomers.infrastructure.dao.AddressRepository;
 import pe.a3ya.mscustomers.infrastructure.dao.CustomerRepository;
@@ -16,9 +18,11 @@ import pe.a3ya.mscustomers.infrastructure.entities.CustomerEntity;
 import pe.a3ya.mscustomers.infrastructure.mappers.CustomerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pe.a3ya.mscustomers.infrastructure.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,6 +33,7 @@ public class CustomerAdapter implements CustomerServiceOut {
     private final CustomerRepository customerRepository;
     private final ApisNetReniecClient reniecClient;
     private final AddressRepository addressRepository;
+    private final RedisService redisService;
 
     @Value("${token.apis_net}")
     private String token;
@@ -80,7 +85,8 @@ public class CustomerAdapter implements CustomerServiceOut {
         customerRepository.save(savedCustomer);
         return CustomerMapper.fromEntityToDto(savedCustomer);
     }
-
+    /*
+    //SIN REDIS
     @Override
     public Optional<CustomerDto> getById(Long id) {
         CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
@@ -89,6 +95,75 @@ public class CustomerAdapter implements CustomerServiceOut {
         }
         return Optional.empty();
     }
+
+     */
+    /*
+    @Override
+    public Optional<CustomerDto> getById(Long id) {
+        CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
+        String redisInfo = redisService.getFromRedis(Constant.REDIS_KEY_GETCUSTOMER+id);
+
+        if(redisInfo != null) {
+            CustomerDto customerDto = Util.convertirDesdeString(redisInfo, CustomerDto.class);
+            return Optional.ofNullable(customerDto);
+        }else{
+            if (customerEntity != null) {
+                CustomerDto customerDto = CustomerMapper.fromEntityToDto(customerEntity);
+                String dataForRedis = Util.convertirAString(customerDto);
+                if(dataForRedis != null) {
+                    redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER + id, dataForRedis, 1000);
+                }
+
+                return Optional.ofNullable(CustomerMapper.fromEntityToDto(customerEntity));
+            }
+        }
+        return Optional.empty();
+    }
+
+     */
+
+    @Override
+    public Optional<CustomerDto> getById(Long id) {
+        // Buscar la entidad en el repositorio
+        CustomerEntity customerEntity = customerRepository.findById(id).orElse(null);
+
+        // Intentar obtener la información desde Redis
+        String redisInfo = redisService.getFromRedis(Constant.REDIS_KEY_GETCUSTOMER + id);
+
+        if (redisInfo != null) {
+            CustomerDto customerDto = Util.convertirDesdeString(redisInfo, CustomerDto.class);
+            return Optional.ofNullable(customerDto);
+        } else {
+            if (customerEntity != null) {
+                CustomerDto customerDto = CustomerMapper.fromEntityToDto(customerEntity);
+                String dataForRedis = Util.convertirAString(customerDto);
+                if (dataForRedis != null) {
+                    redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER + id, dataForRedis, 1000);
+                }
+                return Optional.ofNullable(customerDto);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+
+    /*
+    @Override
+    public Optional<CustomerDto> getById(Long id) {
+        String redisInfo = redisService.getFromRedis(Constant.REDIS_KEY_GETCUSTOMER+id);
+        if(redisInfo!= null){
+            CustomerDto customerDto = Util.convertirDesdeString(redisInfo,CustomerDto.class);
+            return Optional.of(customerDto);
+        }else{
+            CustomerDto empresaDto = CustomerMapper.fromEntityToDto(customerRepository.findById(id).get());
+            String dataForRedis = Util.convertirAString(empresaDto);
+            redisService.saveInRedis(Constant.REDIS_KEY_GETCUSTOMER+id,dataForRedis,10);
+            return Optional.of(CustomerDto.builder().build());
+        }
+    }
+
+     */
 
     @Override
     public List<CustomerDto> getAll() {
